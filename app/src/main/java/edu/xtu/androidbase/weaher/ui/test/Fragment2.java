@@ -10,7 +10,7 @@ import java.util.Random;
 import edu.xtu.androidbase.weaher.R;
 import edu.xtu.androidbase.weaher.ui.base.BaseFragment;
 import edu.xtu.androidbase.weaher.ui.base.TerminalActivity;
-import edu.xtu.androidbase.weaher.ui.view.LoadView;
+import edu.xtu.androidbase.weaher.util.view.LoadView;
 import edu.xtu.androidbase.weaher.util.LogUtils;
 import edu.xtu.androidbase.weaher.util.volley.ApiRequestFactory;
 import edu.xtu.androidbase.weaher.util.volley.ApiRequestListener;

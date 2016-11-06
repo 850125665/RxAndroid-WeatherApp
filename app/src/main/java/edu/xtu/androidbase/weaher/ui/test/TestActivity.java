@@ -1,13 +1,16 @@
 package edu.xtu.androidbase.weaher.ui.test;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 
 import edu.xtu.androidbase.weaher.BuildConfig;
 import edu.xtu.androidbase.weaher.R;
 import edu.xtu.androidbase.weaher.ui.base.BaseActivity;
+import edu.xtu.androidbase.weaher.ui.weather.activity.HomeActivity;
 import edu.xtu.androidbase.weaher.ui.weather.domain.WeatherAPI;
 import edu.xtu.androidbase.weaher.util.Retrofit.ApiService;
 import edu.xtu.androidbase.weaher.util.Retrofit.HttpClientListner;
@@ -37,6 +40,11 @@ public class TestActivity extends BaseActivity {
     }
 
     public void showFirst(View view){
+        Intent intent = new Intent(mContext, HomeActivity.class);
+        startActivity(intent);
+
+        overridePendingTransition(R.anim.enter,R.anim.out);
+        finish();
 //        Bundle bundle = new Bundle();
 //        bundle.putString("test","test");
 //        Intent intent = new Intent(this,TestActivity.class);
@@ -46,7 +54,7 @@ public class TestActivity extends BaseActivity {
 //        bundle.putInt(HomeActivity.SELECT_INDEX,2);
 //        Fragment fragment = new Fragment1();
 //        bundle.putSerializable("xx",fragment.getClass());
-        TestHomeActivity.openHomeActivity(mContext,null);
+//        TestHomeActivity.openHomeActivity(mContext,null);
 //        TerminalActivity.show(mContext,Fragment1.class,null);
 //        Bundle bundle =new Bundle();
 //        bundle.putString("test","哈哈哈");

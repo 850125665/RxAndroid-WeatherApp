@@ -11,15 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.trello.rxlifecycle.components.support.RxFragment;
+
 import edu.xtu.androidbase.weaher.R;
 import edu.xtu.androidbase.weaher.util.AppInfo;
-import edu.xtu.androidbase.weaher.ui.view.LoadView;
+import edu.xtu.androidbase.weaher.util.view.LoadView;
 import edu.xtu.androidbase.weaher.util.LogUtils;
 
 /**
  * Created by huilin on 2016/8/16.
  */
-public abstract class BaseFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public abstract class BaseFragment extends RxFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public String TAG = this.getClass().getName();
     private SwipeRefreshLayout swipeRefreshLayout;

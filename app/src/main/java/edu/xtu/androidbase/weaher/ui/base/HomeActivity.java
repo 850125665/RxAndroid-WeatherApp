@@ -11,7 +11,7 @@ import android.widget.TabHost;
 import java.util.List;
 
 import edu.xtu.androidbase.weaher.R;
-import edu.xtu.androidbase.weaher.ui.view.TabFragmentHost;
+import edu.xtu.androidbase.weaher.util.view.TabFragmentHost;
 import edu.xtu.androidbase.weaher.util.AppInfo;
 import edu.xtu.androidbase.weaher.util.AppMethods;
 import edu.xtu.androidbase.weaher.util.LogUtils;

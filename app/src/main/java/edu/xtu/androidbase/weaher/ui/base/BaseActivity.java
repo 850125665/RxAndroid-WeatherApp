@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+
 import edu.xtu.androidbase.weaher.util.AppInfo;
 import edu.xtu.androidbase.weaher.util.AppMethods;
 import edu.xtu.androidbase.weaher.util.LogUtils;
@@ -13,7 +15,7 @@ import edu.xtu.androidbase.weaher.util.LogUtils;
 /**
  * Created by huilin on 2016/8/14.
  */
-public class BaseActivity extends AppCompatActivity{
+public class BaseActivity extends RxAppCompatActivity{
 
     public String TAG = this.getClass().getName();
     public Context mContext;
@@ -60,6 +62,7 @@ public class BaseActivity extends AppCompatActivity{
         AppInfo.getAppInstant().initScreenInfo(this);
         ActivityStack.getInstanct().add(this);
         processExtraData();
+
     }
 
     @Override

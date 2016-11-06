@@ -1,4 +1,4 @@
-package edu.xtu.androidbase.weaher.ui.view;
+package edu.xtu.androidbase.weaher.util.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
