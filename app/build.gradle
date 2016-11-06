@@ -1,0 +1,71 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "24.0.1"
+
+    defaultConfig {
+        applicationId "edu.xtu.androidbase.wheather"
+        minSdkVersion 14
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        buildConfigField  "String" , "HE_FENG_KEY","\"9a51b46d610c470ab8e979d79c1ac655\""
+        buildConfigField  "boolean","IS_DEBUG","true"
+        buildConfigField  "boolean","IS_SHOW_LOG","true"
+        buildConfigField  "boolean","IS_TEST_SWITCH","true"
+        buildConfigField "String", "HOST_OFFLINE", "\"" + getHost() + "\""
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+    }
+
+    //打渠道包，gradlew assemble渠道名Release（release还是debug）
+    productFlavors{
+        online{
+
+        }
+
+        offline{
+
+        }
+    }
+    // 移除lint检查的error
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    //    compile 'com.android.support:appcompat-v7:19.1.0'
+//    compile 'com.google.code.gson:gson:2.7'
+    // RxJava Android 支持
+    compile 'io.reactivex:rxjava:1.1.6'
+    compile 'io.reactivex:rxandroid:1.2.1'
+// Retrofit 网络支持
+    compile 'com.squareup.retrofit2:retrofit:2.0.1'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.1'
+// Gson 适配器
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.1'
+    //Debug可以看到，网络请求，打印Log信息，
+    compile 'com.squareup.okhttp3:okhttp:3.0.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
+}
+def getHost() {
+    if (project.hasProperty("SERVER_HOST")) {
+        return project.SERVER_HOST
+    } else {
+//        172.30.199.1
+        return "http://172.16.78.161/gcl/index.php/home"
+    }
+}
