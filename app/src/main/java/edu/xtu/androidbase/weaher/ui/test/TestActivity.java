@@ -25,17 +25,17 @@ public class TestActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         Log.v("xxxxxxx","1234");
-        ApiService.getInstanct().getWeather("北京", BuildConfig.HE_FENG_KEY, new HttpClientListner<WeatherAPI>() {
-            @Override
-            public void success(WeatherAPI weatherAPI) {
-
-            }
-
-            @Override
-            public void error(Throwable error) {
-
-            }
-        });
+//        ApiService.getInstanct().getWeather("北京", BuildConfig.HE_FENG_KEY, new HttpClientListner<WeatherAPI>() {
+//            @Override
+//            public void success(WeatherAPI weatherAPI) {
+//
+//            }
+//
+//            @Override
+//            public void error(Throwable error) {
+//
+//            }
+//        });
 
     }
 

@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "24.0.1"
 
     defaultConfig {
@@ -11,6 +11,8 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField  "String" , "HE_FENG_KEY","\"9a51b46d610c470ab8e979d79c1ac655\""
+        buildConfigField "String" , "BAI_DU_LOCATION", "\"28bcdd84fae25699606ffad27f8da77b\""
+        buildConfigField "String" ,"GAO_DE_LOCATION","\"c5295535c82954dfaa20dd429b25f760\""
         buildConfigField  "boolean","IS_DEBUG","true"
         buildConfigField  "boolean","IS_SHOW_LOG","true"
         buildConfigField  "boolean","IS_TEST_SWITCH","true"

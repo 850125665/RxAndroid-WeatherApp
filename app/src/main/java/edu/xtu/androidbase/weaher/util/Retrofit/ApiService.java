@@ -1,9 +1,14 @@
 package edu.xtu.androidbase.weaher.util.Retrofit;
 
+import android.location.Location;
 import android.util.Log;
 
+import edu.xtu.androidbase.weaher.BuildConfig;
+import edu.xtu.androidbase.weaher.ui.weather.domain.AddressBean;
+import edu.xtu.androidbase.weaher.ui.weather.domain.GaoDeAddressBean;
 import edu.xtu.androidbase.weaher.ui.weather.domain.WeatherAPI;
 import edu.xtu.androidbase.weaher.util.RxUtil.RxHelp;
+import rx.Observable;
 import rx.Subscriber;
 
 /**
@@ -29,6 +34,10 @@ public class ApiService {
        mApi.getWeather(city,key).compose(RxHelp.<WeatherAPI>onlineSchedul()).subscribe(this.httpCallBack(httpClientListner));
 //        mApi.getWeather(city,key).compose(RxHelp.<WeatherAPI>applyExecutorSchedulers()).subscribe(this.httpCallBack(httpClientListner));
    }
+
+    public Observable<GaoDeAddressBean>  getLocationInfo(Location location){
+        return mApi.getLocationInfo(location.getLatitude() + "," + location.getLongitude(), BuildConfig.GAO_DE_LOCATION,"json").compose(RxHelp.<GaoDeAddressBean>onlineSchedul());
+    }
 
     public <T extends HttpModel> Subscriber<T> httpCallBack( final HttpClientListner httpClientListner){
         return new Subscriber<T>() {
