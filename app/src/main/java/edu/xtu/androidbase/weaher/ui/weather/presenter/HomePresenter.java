@@ -2,11 +2,8 @@ package edu.xtu.androidbase.weaher.ui.weather.presenter;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.location.LocationListener;
 import android.location.LocationManager;
 
-import edu.xtu.androidbase.weaher.ui.weather.domain.AddressBean;
-import edu.xtu.androidbase.weaher.ui.weather.domain.CityBean;
 import edu.xtu.androidbase.weaher.ui.weather.domain.GaoDeAddressBean;
 import edu.xtu.androidbase.weaher.ui.weather.model.HomeModelImpl;
 import edu.xtu.androidbase.weaher.ui.weather.model.IHomeModel;
@@ -15,8 +12,8 @@ import edu.xtu.androidbase.weaher.ui.weather.model.usercase.LocationUserCase;
 import edu.xtu.androidbase.weaher.ui.weather.view.IHomeView;
 import edu.xtu.androidbase.weaher.util.AppInfo;
 import edu.xtu.androidbase.weaher.util.LogUtils;
-import rx.Observable;
-import rx.Subscriber;
+import edu.xtu.androidbase.weaher.util.Retrofit.HttpModel;
+import edu.xtu.androidbase.weaher.util.Retrofit.HttpSubscriber;
 
 /**
  * Created by huilin on 2016/11/12.
@@ -36,21 +33,18 @@ public class HomePresenter {
         LocationManager locationManager = (LocationManager) AppInfo.getAppInstant().getMyContext().getSystemService(Context.LOCATION_SERVICE);
         AssetManager assetManager = AppInfo.getAppInstant().getMyContext().getAssets();
         LocationUserCase cityInfo = iHomeModel.getCityInfo();
-        cityInfo.subscriber(new Subscriber<GaoDeAddressBean>() {
+
+        cityInfo.subscriber(new HttpSubscriber<GaoDeAddressBean>() {
             @Override
-            public void onCompleted() {
+            public void error(HttpModel httpModel) {
+                LogUtils.i(TAG,httpModel.getMsg());
+                iHomeView.error(httpModel.getMsg());
+            }
+
+            @Override
+            public void success(GaoDeAddressBean gaoDeAddressBean) {
+                iHomeView.setCityName(gaoDeAddressBean.getRegeocode().getAddressComponent().getProvince());
                 iHomeView.success();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                LogUtils.i(TAG,e.getMessage());
-                iHomeView.error(e.getMessage());
-            }
-
-            @Override
-            public void onNext(GaoDeAddressBean addressBean) {
-                iHomeView.setCityName(addressBean.getRegeocode().getAddressComponent().getProvince());
             }
         },new HomeRequest(locationManager,assetManager));
     }

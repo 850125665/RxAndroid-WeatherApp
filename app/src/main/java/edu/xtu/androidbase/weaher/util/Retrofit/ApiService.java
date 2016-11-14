@@ -1,15 +1,12 @@
 package edu.xtu.androidbase.weaher.util.Retrofit;
 
 import android.location.Location;
-import android.util.Log;
 
 import edu.xtu.androidbase.weaher.BuildConfig;
-import edu.xtu.androidbase.weaher.ui.weather.domain.AddressBean;
 import edu.xtu.androidbase.weaher.ui.weather.domain.GaoDeAddressBean;
 import edu.xtu.androidbase.weaher.ui.weather.domain.WeatherAPI;
 import edu.xtu.androidbase.weaher.util.RxUtil.RxHelp;
 import rx.Observable;
-import rx.Subscriber;
 
 /**
  * Created by huilin on 2016/11/6.
@@ -29,40 +26,15 @@ public class ApiService {
         return ApiServiceHodle.INSTANCT;
     }
 
-   public void getWeather(String city , String key,HttpClientListner<WeatherAPI> httpClientListner){
+   public void getWeather(String city , String key,HttpClientListner<WeatherAPI> httpClientListner,HttpSubscriber httpSubscriber){
 
-       mApi.getWeather(city,key).compose(RxHelp.<WeatherAPI>onlineSchedul()).subscribe(this.httpCallBack(httpClientListner));
+       mApi.getWeather(city,key).compose(RxHelp.<WeatherAPI>onlineSchedul()).subscribe(httpSubscriber);
 //        mApi.getWeather(city,key).compose(RxHelp.<WeatherAPI>applyExecutorSchedulers()).subscribe(this.httpCallBack(httpClientListner));
    }
 
     public Observable<GaoDeAddressBean>  getLocationInfo(Location location){
-        return mApi.getLocationInfo(location.getLatitude() + "," + location.getLongitude(), BuildConfig.GAO_DE_LOCATION,"json").compose(RxHelp.<GaoDeAddressBean>onlineSchedul());
+        return mApi.getLocationInfo(location.getLongitude() + "," + location.getLatitude(), BuildConfig.GAO_DE_LOCATION,"json").compose(RxHelp.<GaoDeAddressBean>onlineSchedul());
     }
 
-    public <T extends HttpModel> Subscriber<T> httpCallBack( final HttpClientListner httpClientListner){
-        return new Subscriber<T>() {
-            @Override
-            public void onCompleted() {
 
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.i(TAG,e.getMessage());
-                httpClientListner.error(e);
-            }
-
-            @Override
-            public void onNext(T t) {
-                Log.i(TAG,t.toString());
-                //实际项目中code值判断成功失败
-//                if(200 ==t.getCode()){
-//
-//                }else {
-//
-//                }
-                httpClientListner.success(t);
-            }
-        };
-    }
 }
