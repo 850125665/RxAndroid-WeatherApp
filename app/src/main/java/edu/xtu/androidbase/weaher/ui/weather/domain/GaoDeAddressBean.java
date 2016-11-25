@@ -101,7 +101,7 @@ public class GaoDeAddressBean extends HttpModel {
             private String adcode;
             private String township;
             private String towncode;
-            private NeighborhoodBean neighborhood;
+//            private NeighborhoodBean neighborhood;
 //            private BuildingBean building;
             private StreetNumberBean streetNumber;
             private List<?> city;
@@ -163,13 +163,13 @@ public class GaoDeAddressBean extends HttpModel {
                 this.towncode = towncode;
             }
 
-            public NeighborhoodBean getNeighborhood() {
-                return neighborhood;
-            }
-
-            public void setNeighborhood(NeighborhoodBean neighborhood) {
-                this.neighborhood = neighborhood;
-            }
+//            public NeighborhoodBean getNeighborhood() {
+//                return neighborhood;
+//            }
+//
+//            public void setNeighborhood(NeighborhoodBean neighborhood) {
+//                this.neighborhood = neighborhood;
+//            }
 
 //            public BuildingBean getBuilding() {
 //                return building;

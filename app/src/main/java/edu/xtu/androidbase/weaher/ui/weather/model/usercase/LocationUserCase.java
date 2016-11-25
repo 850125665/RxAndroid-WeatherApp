@@ -66,22 +66,18 @@ public class LocationUserCase extends UseCase<GaoDeAddressBean, HomeRequest> {
                 };
                 List<String> providers = locationManager.getProviders(true);
                 String locationProvider = "";
-                if (providers.contains(LocationManager.GPS_PROVIDER)) {
-                    locationProvider = LocationManager.GPS_PROVIDER;
-                } else if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
-                    locationProvider = LocationManager.NETWORK_PROVIDER;
-                } else {
-                    //没有提供者
-                    subscriber.onError(new Throwable("不能定位位置"));
-                }
+//                if (providers.contains(LocationManager.GPS_PROVIDER)) {
+//                    locationProvider = LocationManager.GPS_PROVIDER;
+//                } else if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
+//                    locationProvider = LocationManager.NETWORK_PROVIDER;
+//                } else {
+//                    //没有提供者
+//                    subscriber.onError(new Throwable("不能定位位置"));
+//                }
                 final Criteria locationCriteria = new Criteria();
                 locationCriteria.setAccuracy(Criteria.ACCURACY_COARSE);
                 locationCriteria.setPowerRequirement(Criteria.POWER_LOW);
                 String locationProvider1 = locationManager.getBestProvider(locationCriteria, true);
-//                Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-//                if(lastKnownLocation!=null){
-//                    subscriber.onNext(lastKnownLocation);
-//                }
                 locationManager.requestLocationUpdates(locationProvider1, 1000, 0, locationListener);
 
 

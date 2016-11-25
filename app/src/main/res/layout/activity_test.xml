@@ -7,9 +7,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="show_first"
+        android:text="open"
         android:onClick="showFirst"
-        android:paddingBottom="100dp"
         />
 
 </LinearLayout>

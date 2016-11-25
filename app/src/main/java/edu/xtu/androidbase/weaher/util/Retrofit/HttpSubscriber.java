@@ -4,6 +4,7 @@ import android.app.Dialog;
 
 import edu.xtu.androidbase.weaher.util.AppInfo;
 import edu.xtu.androidbase.weaher.util.AppMethods;
+import edu.xtu.androidbase.weaher.util.LogUtils;
 import rx.Subscriber;
 
 /**
@@ -24,6 +25,7 @@ public abstract class HttpSubscriber<T extends HttpModel> extends Subscriber<T> 
 
     @Override
     public void onError(Throwable e) {
+        LogUtils.e(e.getMessage());
         HttpModel httpModel = new HttpModel();
         httpModel.setCode(1000);
         httpModel.setMsg("网络异常");
@@ -32,6 +34,7 @@ public abstract class HttpSubscriber<T extends HttpModel> extends Subscriber<T> 
 
     @Override
     public void onNext(T t) {
+        //自己公司成功的code码
         if(t.getCode() == 200){
             //成功
         }else{

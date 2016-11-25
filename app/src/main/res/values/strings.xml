@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Client</string>
+    <string name="open_drawer">打开</string>
+    <string name="close_drawer">关闭</string>
 </resources>
