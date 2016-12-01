@@ -43,4 +43,18 @@
     <dimen name="material_256dp">256dip</dimen>
     <dimen name="material_320dp">320dip</dimen>
     <dimen name="material_400dp">400dip</dimen>
+
+    <!--material sp-->
+    <dimen name="material_8sp">8sp</dimen>
+    <dimen name="material_10sp">10sp</dimen>
+    <dimen name="material_11sp">11sp</dimen>
+    <dimen name="material_12sp">12sp</dimen>
+    <dimen name="material_13sp">13sp</dimen>
+    <dimen name="material_14sp">14sp</dimen>
+    <dimen name="material_16sp">16sp</dimen>
+    <dimen name="material_18sp">18sp</dimen>
+    <dimen name="material_20sp">20sp</dimen>
+    <dimen name="material_24sp">24sp</dimen>
+    <dimen name="material_32sp">32sp</dimen>
+    <dimen name="material_40sp">40sp</dimen>
 </resources>

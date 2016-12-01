@@ -59,7 +59,7 @@
             app:layout_anchor="@id/viewPager"
             app:layout_anchorGravity="end|bottom"
             app:backgroundTint="@color/colorPrimary"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_behavior="edu.xtu.androidbase.weaher.util.ScrollAwareFABBehavior"
             />
 
     </android.support.design.widget.CoordinatorLayout>

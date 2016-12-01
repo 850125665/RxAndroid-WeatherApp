@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
@@ -14,7 +12,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.xtu.androidbase.weaher.R;
 import edu.xtu.androidbase.weaher.ui.base.BaseFragment;
-import edu.xtu.androidbase.weaher.ui.weather.adapter.RecycleAdapter;
+import edu.xtu.androidbase.weaher.ui.base.TerminalToolBarActivity;
+import edu.xtu.androidbase.weaher.ui.weather.adapter.CityWeatherRecycleAdapter;
 import edu.xtu.androidbase.weaher.ui.weather.domain.Weather;
 import edu.xtu.androidbase.weaher.util.AppMethods;
 import edu.xtu.androidbase.weaher.util.GridDecoration;
@@ -28,7 +27,7 @@ public class MainFragment extends BaseFragment {
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
 
-    private RecycleAdapter recycleAdapter;
+    private CityWeatherRecycleAdapter cityWeatherRecycleAdapter;
 
     @Override
     protected void initData() {
@@ -38,18 +37,26 @@ public class MainFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this,view);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext,2, LinearLayoutManager.VERTICAL,false);
+        final GridLayoutManager layoutManager = new GridLayoutManager(mContext,2, LinearLayoutManager.VERTICAL,false);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return position ==0?layoutManager.getSpanCount():1;
+            }
+        });
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new GridDecoration(mContext));
-        recycleAdapter = new RecycleAdapter();
-        recycleAdapter.setDatas(new ArrayList<Weather>());
-        recyclerView.setAdapter(recycleAdapter);
-        recycleAdapter.setOnClickListener(new RecycleAdapter.OnClickListener() {
+        cityWeatherRecycleAdapter = new CityWeatherRecycleAdapter();
+        cityWeatherRecycleAdapter.setDatas(new ArrayList<Weather>());
+        recyclerView.setAdapter(cityWeatherRecycleAdapter);
+        cityWeatherRecycleAdapter.setOnClickListener(new CityWeatherRecycleAdapter.OnClickListener() {
             @Override
             public void OnClickItem() {
+                TerminalToolBarActivity.show(mContext,WeatherDetailFragment.class,new Bundle());
                 AppMethods.shwoToast("点击了");
             }
         });
+
 
     }
 
@@ -62,6 +69,7 @@ public class MainFragment extends BaseFragment {
     protected void getNet(LoadView.IOnNetListener iOnNetListener) {
             iOnNetListener.getState(LoadView.LoadResult.success);
     }
+
 
 
 

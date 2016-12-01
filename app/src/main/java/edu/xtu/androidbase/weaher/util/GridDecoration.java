@@ -13,6 +13,7 @@ import edu.xtu.androidbase.weaher.R;
 
 public class GridDecoration extends RecyclerView.ItemDecoration {
     int margin = 0;
+
     public GridDecoration(Context context) {
         margin = context.getResources().getDimensionPixelSize(R.dimen.material_16dp);
     }
@@ -20,10 +21,14 @@ public class GridDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int childAdapterPosition = parent.getChildAdapterPosition(view);
-        if(childAdapterPosition%2==0){
-            outRect.set(margin/2,margin,margin/2,0);
-        }else{
-            outRect.set(0,margin,margin/2,0);
+        if (childAdapterPosition > 0) {
+
+            if (childAdapterPosition % 2 == 0) {
+                outRect.set(margin / 2, margin, margin / 2, 0);
+            } else {
+                outRect.set(margin / 2, margin, margin / 2, 0);
+            }
+        } else {
         }
 
     }

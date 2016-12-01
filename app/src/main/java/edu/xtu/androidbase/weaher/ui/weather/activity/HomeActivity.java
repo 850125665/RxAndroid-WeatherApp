@@ -78,14 +78,14 @@ public class HomeActivity extends BaseActivity implements IHomeView {
 
         MainFragment mainFragment = new MainFragment();
         fragments.add(mainFragment);
-        titles.add("所有");
+        titles.add("天气");
         CItyFragment cItyFragment = new CItyFragment();
         fragments.add(cItyFragment);
-        titles.add("搜索");
+        titles.add("城市");
 
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        tabLayout.addTab(tabLayout.newTab().setText("所有"));
-        tabLayout.addTab(tabLayout.newTab().setText("搜索"));
+        tabLayout.addTab(tabLayout.newTab().setText("天气"));
+        tabLayout.addTab(tabLayout.newTab().setText("城市"));
 
         homeViewPageAdapter = new HomeViewPageAdapter(getSupportFragmentManager());
         homeViewPageAdapter.setDatas(fragments,titles);

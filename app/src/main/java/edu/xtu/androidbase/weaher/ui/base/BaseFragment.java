@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +16,7 @@ import edu.xtu.androidbase.weaher.R;
 import edu.xtu.androidbase.weaher.util.AppInfo;
 import edu.xtu.androidbase.weaher.util.view.LoadView;
 import edu.xtu.androidbase.weaher.util.LogUtils;
+import edu.xtu.androidbase.weaher.util.view.ToolBar;
 
 /**
  * Created by huilin on 2016/8/16.
@@ -25,6 +25,7 @@ public abstract class BaseFragment extends RxFragment implements SwipeRefreshLay
 
     public String TAG = this.getClass().getName();
     private SwipeRefreshLayout swipeRefreshLayout;
+    public ToolBar toolBar;
     private FrameLayout frameContent;
 
     public Context mContext;
@@ -47,13 +48,15 @@ public abstract class BaseFragment extends RxFragment implements SwipeRefreshLay
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         LogUtils.d(TAG,"onCreateView");
+        View root =  View.inflate(getActivity(),R.layout.fragment_base,null);
+        FrameLayout frameLayout = (FrameLayout) root.findViewById(R.id.frame_base_content);
         if(loadView==null){
             LogUtils.d(TAG,"第一次");
             mContext=getActivity();
             loadView = new LoadView(getActivity()) {
                 @Override
                 public View createSuccessView() {
-                    return View.inflate(getActivity(),R.layout.fragment_base,null);
+                    return View.inflate(getActivity(),R.layout.view_success,null);
                 }
 
                 /**
@@ -70,7 +73,9 @@ public abstract class BaseFragment extends RxFragment implements SwipeRefreshLay
 
             };
         }
-        return loadView;
+        frameLayout.removeAllViews();
+        frameLayout.addView(loadView);
+        return root;
     }
 
 
@@ -82,6 +87,10 @@ public abstract class BaseFragment extends RxFragment implements SwipeRefreshLay
             data = savedInstanceState.getBundle(SAVE_INSTANCE);
         }
         processExtraData();
+        toolBar = (ToolBar) view.findViewById(R.id.tool_bar);
+       if(getActivity() instanceof TerminalToolBarActivity){
+           ((TerminalToolBarActivity) getActivity()).setSupportActionBar(toolBar.getToolbar());
+       }
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.main_swipe);
         frameContent = (FrameLayout) view.findViewById(R.id.content_frame);
         frameContent.addView(View.inflate(mContext,getResourceId(),null));
@@ -175,4 +184,13 @@ public abstract class BaseFragment extends RxFragment implements SwipeRefreshLay
         super.onDestroy();
         LogUtils.d(TAG,"onDestroy");
     }
+
+    /**
+     * 显示toolbar
+     */
+    public void showToolBar(){
+        toolBar.setVisibility(View.VISIBLE);
+    }
+
+
 }

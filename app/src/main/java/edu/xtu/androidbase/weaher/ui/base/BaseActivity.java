@@ -24,7 +24,7 @@ public class BaseActivity extends RxAppCompatActivity{
     /**
      * activity传数据需要传参的key值
      */
-    public String BUNDLE_DATA = "bundle_data";
+    public static String BUNDLE_DATA = "bundle_data";
     /**
      * 传来的数据
      */
@@ -81,7 +81,14 @@ public class BaseActivity extends RxAppCompatActivity{
         Intent intent = getIntent();
         if(intent!=null && intent.getBundleExtra(BUNDLE_DATA)!=null){
             data = intent.getBundleExtra(BUNDLE_DATA);
+            receptIntent(data);
         }
+    }
+    /**
+     * 有从别的activity的参数
+     */
+    public void receptIntent(Bundle bundle){
+
     }
 
     @Override
