@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 import edu.xtu.androidbase.weaher.R;
 import edu.xtu.androidbase.weaher.ui.base.BaseActivity;
 import edu.xtu.androidbase.weaher.ui.weather.adapter.HomeViewPageAdapter;
-import edu.xtu.androidbase.weaher.ui.weather.fragment.CItyFragment;
+import edu.xtu.androidbase.weaher.ui.weather.fragment.CityFragment;
 import edu.xtu.androidbase.weaher.ui.weather.fragment.MainFragment;
 import edu.xtu.androidbase.weaher.ui.weather.presenter.HomePresenter;
 import edu.xtu.androidbase.weaher.ui.weather.view.IHomeView;
@@ -79,8 +79,8 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         MainFragment mainFragment = new MainFragment();
         fragments.add(mainFragment);
         titles.add("天气");
-        CItyFragment cItyFragment = new CItyFragment();
-        fragments.add(cItyFragment);
+        CityFragment cityFragment = new CityFragment();
+        fragments.add(cityFragment);
         titles.add("城市");
 
         tabLayout.setTabMode(TabLayout.MODE_FIXED);

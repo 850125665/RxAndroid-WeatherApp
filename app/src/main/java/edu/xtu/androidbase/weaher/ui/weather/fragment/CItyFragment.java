@@ -9,7 +9,7 @@ import edu.xtu.androidbase.weaher.util.view.LoadView;
 /**
  * Created by huilin on 2016/11/12.
  */
-public class CItyFragment extends BaseFragment {
+public class CityFragment extends BaseFragment {
 
     @Override
     protected void initData() {

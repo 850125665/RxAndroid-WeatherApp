@@ -56,7 +56,7 @@ public class CityWeatherRecycleAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
         int itemViewType = this.getItemViewType(position);
         if (itemViewType == TYPE_HEAD) {
@@ -68,7 +68,7 @@ public class CityWeatherRecycleAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     if (onclickListenr != null) {
 
-                        onclickListenr.OnClickItem();
+                        onclickListenr.OnClickItem(holder,position);
                     }
                 }
             });
@@ -87,9 +87,9 @@ public class CityWeatherRecycleAdapter extends RecyclerView.Adapter {
     }
 
 
-    static class GridViewHolder extends RecyclerView.ViewHolder {
+    public static class GridViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.content_img)
-        ImageView contentImg;
+        public ImageView contentImg;
         @Bind(R.id.content_tv)
         TextView contentTv;
         @Bind(R.id.card_view)
@@ -103,10 +103,10 @@ public class CityWeatherRecycleAdapter extends RecyclerView.Adapter {
     }
 
     public interface OnClickListener {
-        void OnClickItem();
+        void OnClickItem(RecyclerView.ViewHolder holder, int position);
     }
 
-    static class HeadViewHolder extends RecyclerView.ViewHolder {
+    public static class HeadViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.tv_city)
         TextView tvCity;
         @Bind(R.id.tv_weather)

@@ -3,6 +3,7 @@ package edu.xtu.androidbase.weaher.ui.base;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +18,9 @@ import edu.xtu.androidbase.weaher.util.AppInfo;
  */
 public class TerminalToolBarActivity extends BaseActivity {
 
-    public static String FRGMENT_CLASS;
+    public static String FRGMENT_CLASS = "fragment_class";
+
+    public static final String SCENE_TRANSITION = "scene_transition";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,21 @@ public class TerminalToolBarActivity extends BaseActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }
             mContext.startActivity(intent);
+        }
+
+        /**
+         * 转场跳转
+         * @param bundle
+         */
+        public void show(Bundle bundle){
+            if(!(mContext instanceof Activity)){
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                mContext.startActivity(intent,bundle);
+            }else{
+                mContext.startActivity(intent);
+            }
         }
 
         /**
@@ -99,8 +117,19 @@ public class TerminalToolBarActivity extends BaseActivity {
      * @param bundle
      */
     public static void show(Context context,Class<? extends Fragment> fClass,Bundle bundle){
-        new WrapIntent(context,bundle,fClass,TerminalToolBarActivity.class).show();
+        if(bundle==null){
+            bundle = new Bundle();
+        }
+        Bundle sceneBundle = bundle.getBundle(SCENE_TRANSITION);
+        if(sceneBundle!=null){
+            new WrapIntent(context,bundle,fClass,TerminalToolBarActivity.class).show(sceneBundle);
+        }else{
+            new WrapIntent(context,bundle,fClass,TerminalToolBarActivity.class).show();
+        }
+
     }
+
+
 
 
     /**

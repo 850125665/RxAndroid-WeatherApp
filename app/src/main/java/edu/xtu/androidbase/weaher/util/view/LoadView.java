@@ -66,11 +66,12 @@ public abstract class LoadView extends FrameLayout {
     /**
      * 服务器返回状态枚举，错误，空数据，成功
      */
-    public enum LoadResult{
-        error(ERROR_STATE),empty(EMPTY_STATE),success(SUCCESS_STATE);
+    public enum LoadResult {
+        error(ERROR_STATE), empty(EMPTY_STATE), success(SUCCESS_STATE);
         int value;
-        LoadResult(int value){
-            this.value=value;
+
+        LoadResult(int value) {
+            this.value = value;
         }
 
         public int getValue() {
@@ -79,16 +80,16 @@ public abstract class LoadView extends FrameLayout {
     }
 
     public LoadView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public LoadView(Context context, AttributeSet attrs) {
-        this(context, attrs,0);
+        this(context, attrs, 0);
     }
 
     public LoadView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mContext=context;
+        mContext = context;
         init();
     }
 
@@ -97,16 +98,16 @@ public abstract class LoadView extends FrameLayout {
         loadingView = createLoadingView();
         errorView = createErrorView();
         successView = createSuccessView();
-        if(emptyView!=null){
+        if (emptyView != null) {
             this.addView(emptyView);
         }
-        if(loadingView!=null){
+        if (loadingView != null) {
             this.addView(loadingView);
         }
-        if(errorView!=null){
+        if (errorView != null) {
             this.addView(errorView);
         }
-        if(successView!=null){
+        if (successView != null) {
             this.addView(successView);
         }
         showPage();
@@ -114,14 +115,15 @@ public abstract class LoadView extends FrameLayout {
 
     /**
      * 加载当前展示布局
+     *
      * @return
      */
     public abstract View createSuccessView();
 
     private View createErrorView() {
 
-        if(errorView==null){
-            errorView = View.inflate(mContext, R.layout.view_error,null);
+        if (errorView == null) {
+            errorView = View.inflate(mContext, R.layout.view_error, null);
             Button loadBt = (Button) errorView.findViewById(R.id.load_bt);
             loadBt.setOnClickListener(new OnClickListener() {
                 @Override
@@ -134,16 +136,16 @@ public abstract class LoadView extends FrameLayout {
     }
 
     private View createLoadingView() {
-        if(loadingView==null){
-            loadingView = View.inflate(mContext, R.layout.view_loading,null);
+        if (loadingView == null) {
+            loadingView = View.inflate(mContext, R.layout.view_loading, null);
         }
         return loadingView;
 
     }
 
     private View createEmptyView() {
-        if(emptyView==null){
-            emptyView = View.inflate(mContext, R.layout.view_empty,null);
+        if (emptyView == null) {
+            emptyView = View.inflate(mContext, R.layout.view_empty, null);
             Button loadBt = (Button) emptyView.findViewById(R.id.load_bt);
             loadBt.setOnClickListener(new OnClickListener() {
                 @Override
@@ -155,67 +157,74 @@ public abstract class LoadView extends FrameLayout {
         return emptyView;
     }
 
-    public void showPage(){
+    public void showPage() {
 
-        if(loadingView!=null){
-            loadingView.setVisibility(currentState==UNKNOW_STATE || currentState==LOADING_STATE?VISIBLE:INVISIBLE);
+        if (loadingView != null) {
+            loadingView.setVisibility(currentState == UNKNOW_STATE || currentState == LOADING_STATE ? VISIBLE : INVISIBLE);
         }
-        if(emptyView!=null){
-            emptyView.setVisibility(currentState==EMPTY_STATE?VISIBLE:INVISIBLE);
+        if (emptyView != null) {
+            emptyView.setVisibility(currentState == EMPTY_STATE ? VISIBLE : INVISIBLE);
         }
-        if(errorView!=null){
-            errorView.setVisibility(currentState==ERROR_STATE?VISIBLE:INVISIBLE);
+        if (errorView != null) {
+            errorView.setVisibility(currentState == ERROR_STATE ? VISIBLE : INVISIBLE);
         }
-        if(successView!=null){
-            successView.setVisibility(currentState==SUCCESS_STATE?VISIBLE:INVISIBLE);
+        if (successView != null) {
+            successView.setVisibility(currentState == SUCCESS_STATE ? VISIBLE : INVISIBLE);
         }
     }
 
     /**
      * 请求服务器加载数据页面
      */
-    public void show(){
-        if(currentState==UNKNOW_STATE||currentState==LOADING_STATE || currentState==EMPTY_STATE || currentState==ERROR_STATE){
-            currentState=LOADING_STATE;
+    public void show() {
+        if (currentState == UNKNOW_STATE || currentState == LOADING_STATE || currentState == EMPTY_STATE || currentState == ERROR_STATE) {
+            currentState = LOADING_STATE;
         }
-        final Thread thread= new Thread(){
+//        final Thread thread= new Thread(){
+//            @Override
+//            public void run() {
+//                try {
+//                    if(currentState!=SUCCESS_STATE){
+//                        sleep(2000);
+//                    }
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//               loadNet(new IOnNetListener() {
+//                    @Override
+//                    public void getState(final LoadResult result) {
+//                        AppInfo.getAppInstant().getUiHandler().post(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                currentState=result.getValue();
+//                                showPage();
+//                            }
+//                        });
+//                    }
+//                });
+//
+//
+//            }
+//        };
+//        thread.start();
+        loadNet(new IOnNetListener() {
             @Override
-            public void run() {
-                try {
-                    if(currentState!=SUCCESS_STATE){
-                        sleep(2000);
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-               loadNet(new IOnNetListener() {
-                    @Override
-                    public void getState(final LoadResult result) {
-                        AppInfo.getAppInstant().getUiHandler().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                currentState=result.getValue();
-                                showPage();
-                            }
-                        });
-                    }
-                });
-
-
+            public void getState(LoadResult result) {
+                currentState = result.getValue();
+                showPage();
             }
-        };
-        thread.start();
-
+        });
         showPage();
     }
 
     /**
      * 请求服务器返回状态，错误，数据空，成功
+     *
      * @return
      */
     protected abstract void loadNet(IOnNetListener iOnNetListener);
 
-    public interface IOnNetListener{
+    public interface IOnNetListener {
         void getState(LoadResult result);
 
     }

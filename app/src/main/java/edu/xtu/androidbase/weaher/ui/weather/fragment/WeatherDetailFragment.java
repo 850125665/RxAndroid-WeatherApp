@@ -1,9 +1,12 @@
 package edu.xtu.androidbase.weaher.ui.weather.fragment;
 
+import android.os.Build;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +21,7 @@ import edu.xtu.androidbase.weaher.ui.weather.adapter.WeatherDetailRecycleAdapter
 import edu.xtu.androidbase.weaher.ui.weather.domain.Weather;
 import edu.xtu.androidbase.weaher.util.GridDecoration;
 import edu.xtu.androidbase.weaher.util.LineDecoration;
+import edu.xtu.androidbase.weaher.util.LogUtils;
 import edu.xtu.androidbase.weaher.util.view.LoadView;
 
 /**
@@ -51,6 +55,22 @@ public class WeatherDetailFragment extends BaseFragment {
         recyclerView.setAdapter(weatherDetailRecycleAdapter);
         showToolBar();
         toolBar.setToolTitle("北京");
+
+        String tag =  data.getString("transition");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getActivity().postponeEnterTransition();
+            LogUtils.e(TAG,tag);
+            imgWeather.setTransitionName(tag);
+            view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+
+                    return true;
+                }
+            });
+
+        }
+
     }
 
     @Override
@@ -61,7 +81,11 @@ public class WeatherDetailFragment extends BaseFragment {
     @Override
     protected void getNet(LoadView.IOnNetListener iOnNetListener) {
         iOnNetListener.getState(LoadView.LoadResult.success);
+        getActivity().startPostponedEnterTransition();
+
     }
+
+
 
 
 

@@ -17,7 +17,7 @@ import edu.xtu.androidbase.weaher.util.AppInfo;
  */
 public class TerminalActivity extends BaseFragmentActivity {
 
-    public static String FRGMENT_CLASS;
+    public static String FRGMENT_CLASS = "fragment_class";
 
     /**
      * 封装intent
