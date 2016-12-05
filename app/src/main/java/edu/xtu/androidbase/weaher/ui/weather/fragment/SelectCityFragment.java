@@ -11,18 +11,20 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.xtu.androidbase.weaher.R;
 import edu.xtu.androidbase.weaher.ui.base.BaseFragment;
-import edu.xtu.androidbase.weaher.ui.weather.adapter.CityRecycleAdapter;
+import edu.xtu.androidbase.weaher.ui.weather.adapter.SelectCityRecycleAdapter;
 import edu.xtu.androidbase.weaher.util.LineDecoration;
 import edu.xtu.androidbase.weaher.util.view.LoadView;
 
 /**
- * Created by huilin on 2016/11/12.
+ * Created by huilin on 2016/12/5.
  */
-public class CityFragment extends BaseFragment {
+
+public class SelectCityFragment extends BaseFragment {
 
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
-    private CityRecycleAdapter cityRecycleAdapter;
+    private SelectCityRecycleAdapter selectCityRecycleAdapter;
+
     @Override
     protected void initData() {
 
@@ -31,16 +33,18 @@ public class CityFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this, view);
+        showToolBar();
+        toolBar.setToolTitle("城市选择");
+        selectCityRecycleAdapter = new SelectCityRecycleAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(new LineDecoration(mContext));
-        cityRecycleAdapter = new CityRecycleAdapter();
-        recyclerView.setAdapter(cityRecycleAdapter);
+        recyclerView.setAdapter(selectCityRecycleAdapter);
     }
 
     @Override
     protected int getResourceId() {
-        return R.layout.fragment_city;
+        return R.layout.fragment_select_city;
     }
 
     @Override

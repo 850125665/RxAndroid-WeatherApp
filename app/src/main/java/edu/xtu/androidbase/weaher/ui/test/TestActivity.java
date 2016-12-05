@@ -43,7 +43,7 @@ public class TestActivity extends BaseActivity {
         Intent intent = new Intent(mContext, HomeActivity.class);
         startActivity(intent);
 
-        overridePendingTransition(R.anim.enter,R.anim.out);
+        overridePendingTransition(R.anim.dialog_enter,R.anim.dialog_out);
         finish();
 //        Bundle bundle = new Bundle();
 //        bundle.putString("test","test");

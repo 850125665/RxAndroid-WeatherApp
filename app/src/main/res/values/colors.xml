@@ -6,4 +6,5 @@
     <color name="bg_default">#f0eff5</color>
     <color name="color_grey">#999999</color>
     <color name="color_grey_trans">#66999999</color>
+    <color name="color_line">#d8d8d8</color>
 </resources>
