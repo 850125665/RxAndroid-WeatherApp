@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
@@ -43,6 +43,11 @@ android {
         abortOnError false
     }
 
+    greendao{
+        schemaVersion 1
+        targetGenDir 'src/main/java'
+    }
+
 }
 
 dependencies {
@@ -72,6 +77,7 @@ dependencies {
     compile 'com.trello:rxlifecycle-android:0.7.0'
     // If you want pre-written Activities and Fragments you can subclass as providers
     compile 'com.trello:rxlifecycle-components:0.7.0'
+    compile 'org.greenrobot:greendao:3.1.0'
 }
 def getHost() {
     if (project.hasProperty("SERVER_HOST")) {

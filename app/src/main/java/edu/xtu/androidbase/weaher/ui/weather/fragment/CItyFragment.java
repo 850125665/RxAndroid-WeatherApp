@@ -7,11 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.xtu.androidbase.weaher.R;
 import edu.xtu.androidbase.weaher.ui.base.BaseFragment;
 import edu.xtu.androidbase.weaher.ui.weather.adapter.CityRecycleAdapter;
+import edu.xtu.androidbase.weaher.ui.weather.domain.City;
+import edu.xtu.androidbase.weaher.ui.weather.view.ICityView;
+import edu.xtu.androidbase.weaher.util.AppMethods;
 import edu.xtu.androidbase.weaher.util.LineDecoration;
 import edu.xtu.androidbase.weaher.util.view.LoadView;
 
@@ -23,6 +28,13 @@ public class CityFragment extends BaseFragment {
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
     private CityRecycleAdapter cityRecycleAdapter;
+    LoadView.IOnNetListener iOnNetListener;
+
+    @Override
+    protected void initDataBeforeView() {
+
+    }
+
     @Override
     protected void initData() {
 
@@ -45,8 +57,10 @@ public class CityFragment extends BaseFragment {
 
     @Override
     protected void getNet(LoadView.IOnNetListener iOnNetListener) {
+        this.iOnNetListener = iOnNetListener;
         iOnNetListener.getState(LoadView.LoadResult.success);
     }
+
 
 
 }

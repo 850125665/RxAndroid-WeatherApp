@@ -47,6 +47,11 @@ public class MainFragment extends BaseFragment {
 
 
     @Override
+    protected void initDataBeforeView() {
+
+    }
+
+    @Override
     protected void initData() {
 
     }
@@ -94,6 +99,7 @@ public class MainFragment extends BaseFragment {
                 } else {
                     TerminalToolBarActivity.show(mContext, WeatherDetailFragment.class, new Bundle());
                 }
+
             }
         });
 

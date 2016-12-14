@@ -20,6 +20,11 @@ public class Fragment2 extends BaseFragment {
     TextView tv;
 
     @Override
+    protected void initDataBeforeView() {
+
+    }
+
+    @Override
     protected void initData() {
         if(data!=null){
             LogUtils.d(TAG,data.getString("test"));

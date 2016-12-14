@@ -1,6 +1,7 @@
 package edu.xtu.androidbase.weaher.ui.base;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -48,10 +49,14 @@ public abstract class BaseFragment extends RxFragment implements SwipeRefreshLay
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         LogUtils.d(TAG,"onCreateView");
+        if(savedInstanceState!=null){
+            data = savedInstanceState.getBundle(SAVE_INSTANCE);
+        }
+        processExtraData();
+        initDataBeforeView();
         View root =  View.inflate(getActivity(),R.layout.fragment_base,null);
         FrameLayout frameLayout = (FrameLayout) root.findViewById(R.id.frame_base_content);
         if(loadView==null){
-            LogUtils.d(TAG,"第一次");
             mContext=getActivity();
             loadView = new LoadView(getActivity()) {
                 @Override
@@ -78,19 +83,28 @@ public abstract class BaseFragment extends RxFragment implements SwipeRefreshLay
         return root;
     }
 
+    protected abstract void initDataBeforeView();
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         LogUtils.d(TAG,"onViewCreated");
-        if(savedInstanceState!=null){
-            data = savedInstanceState.getBundle(SAVE_INSTANCE);
-        }
-        processExtraData();
+
         toolBar = (ToolBar) view.findViewById(R.id.tool_bar);
        if(getActivity() instanceof TerminalToolBarActivity){
            ((TerminalToolBarActivity) getActivity()).setSupportActionBar(toolBar.getToolbar());
        }
+        toolBar.getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getActivity().finishAfterTransition();
+                }else{
+                    getActivity().finish();
+                }
+            }
+        });
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.main_swipe);
         frameContent = (FrameLayout) view.findViewById(R.id.content_frame);
         frameContent.addView(View.inflate(mContext,getResourceId(),null));

@@ -12,6 +12,11 @@ import edu.xtu.androidbase.weaher.util.view.LoadView;
 public class AboutFragment extends BaseFragment {
 
     @Override
+    protected void initDataBeforeView() {
+
+    }
+
+    @Override
     protected void initData() {
 
     }

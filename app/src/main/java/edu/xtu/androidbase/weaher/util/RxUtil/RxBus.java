@@ -27,7 +27,7 @@ public class RxBus {
      * @return
      */
     public <T>Observable<T> toObservable(Class<T> evenType){
-       return bus.asObservable().ofType(evenType).onBackpressureBuffer();
+       return bus.asObservable().ofType(evenType);
     }
 
     public void postEven(Object object){

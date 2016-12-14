@@ -8,9 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.xtu.androidbase.weaher.R;
+import edu.xtu.androidbase.weaher.ui.weather.domain.City;
 
 /**
  * Created by huilin on 2016/12/5.
@@ -19,12 +24,18 @@ import edu.xtu.androidbase.weaher.R;
 public class CityRecycleAdapter extends RecyclerView.Adapter<CityRecycleAdapter.ViewHolder> {
     private Context mContext;
 
+
+    private List<City> cities = new ArrayList<>();
+
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
         View inflate = LayoutInflater.from(mContext).inflate(R.layout.item_city, parent, false);
         return new ViewHolder(inflate);
     }
+
+
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
@@ -33,10 +44,10 @@ public class CityRecycleAdapter extends RecyclerView.Adapter<CityRecycleAdapter.
 
     @Override
     public int getItemCount() {
-        return 7;
+        return 5;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.tv_city)
         TextView tvCity;
         @Bind(R.id.tv_temperature)

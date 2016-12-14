@@ -15,7 +15,7 @@
         android:orientation="vertical">
 
         <ImageView
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/sketchy_weather_hot"
             android:id="@+id/content_img"
             android:layout_width="100dp"
             android:layout_height="100dp"

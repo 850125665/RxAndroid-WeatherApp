@@ -87,6 +87,11 @@ public class AppInfo {
     private int screenWitdh;
 
     /**
+     * 包名
+     */
+    private String packetName;
+
+    /**
      *
      * 在application初始化
      * @param application
@@ -131,6 +136,7 @@ public class AppInfo {
         IMEI = tm.getDeviceId();
         mac = AppMethods.getLocalhostAddress();
         oprator = tm.getSimOperator();
+        packetName = myContext.getPackageName();
         PackageManager packageManager = myContext.getPackageManager();
         try {
             PackageInfo packageInfo = packageManager.getPackageInfo(myContext.getPackageName(), 0);
@@ -233,6 +239,10 @@ public class AppInfo {
 
     public Class<? extends Activity> getHomeClass() {
         return homeClass;
+    }
+
+    public String getPacketName() {
+        return packetName;
     }
 
     @Override

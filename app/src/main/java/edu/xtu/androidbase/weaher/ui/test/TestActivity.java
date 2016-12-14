@@ -40,11 +40,12 @@ public class TestActivity extends BaseActivity {
     }
 
     public void showFirst(View view){
+        finish();
         Intent intent = new Intent(mContext, HomeActivity.class);
         startActivity(intent);
+//        overridePendingTransition(R.anim.left_in,R.anim.left_out);
 
-        overridePendingTransition(R.anim.dialog_enter,R.anim.dialog_out);
-        finish();
+
 //        Bundle bundle = new Bundle();
 //        bundle.putString("test","test");
 //        Intent intent = new Intent(this,TestActivity.class);

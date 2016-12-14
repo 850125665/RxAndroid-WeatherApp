@@ -12,6 +12,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <ImageView
+            android:layout_centerInParent="false"
+            android:scaleType="fitCenter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/sketchy_weather_cloud"
+            />
 
         <TextView
             android:id="@+id/tv_city"

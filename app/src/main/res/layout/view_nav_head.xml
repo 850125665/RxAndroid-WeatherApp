@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="160dp"
-    android:background="@mipmap/ic_launcher"
+    android:src="@mipmap/sketchy_weather_top"
+    android:scaleType="centerCrop"
     android:orientation="vertical">
 
-</LinearLayout>
+</ImageView>

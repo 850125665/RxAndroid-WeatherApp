@@ -20,7 +20,7 @@
             android:layout_marginLeft="@dimen/material_16dp"
             android:layout_width="@dimen/material_40dp"
             android:layout_height="@dimen/material_40dp"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/sketchy_weather_local"
             />
         <TextView
             android:id="@+id/tv_city"

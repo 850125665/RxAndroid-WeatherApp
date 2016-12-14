@@ -35,6 +35,11 @@ public class WeatherDetailFragment extends BaseFragment {
     private WeatherDetailRecycleAdapter weatherDetailRecycleAdapter;
 
     @Override
+    protected void initDataBeforeView() {
+
+    }
+
+    @Override
     protected void initData() {
 
     }
