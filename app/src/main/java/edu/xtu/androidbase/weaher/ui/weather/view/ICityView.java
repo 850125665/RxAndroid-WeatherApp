@@ -2,14 +2,12 @@ package edu.xtu.androidbase.weaher.ui.weather.view;
 
 import java.util.List;
 
-import edu.xtu.androidbase.weaher.ui.weather.domain.City;
-import edu.xtu.androidbase.weaher.ui.weather.domain.Province;
+import edu.xtu.androidbase.weaher.ui.weather.domain.SelectCity;
 
 /**
- * Created by huilin on 2016/12/12.
+ * Created by huilin on 2016/12/14.
  */
 
-public interface ICityView extends BaseView {
-    public void showCityListView(List<City> cities);
-    public void showProvinceView(List<Province> provinces);
+public interface ICityView extends IBaseView{
+    void showListCity(List<SelectCity> selectCities);
 }

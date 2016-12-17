@@ -59,4 +59,6 @@ public abstract class HttpSubscriber<T extends HttpModel> extends Subscriber<T> 
      * @param t
      */
     public abstract void success(T t);
+
+
 }

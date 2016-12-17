@@ -22,9 +22,10 @@ public class SelectCityDao extends AbstractDao<SelectCity, Long> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, long.class, "id", true, "_id");
+        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property CityId = new Property(1, long.class, "cityId", false, "CITY_ID");
         public final static Property CityName = new Property(2, String.class, "cityName", false, "CITY_NAME");
+        public final static Property Status = new Property(3, int.class, "status", false, "STATUS");
     }
 
 
@@ -40,9 +41,10 @@ public class SelectCityDao extends AbstractDao<SelectCity, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"SELECT_CITY\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ," + // 0: id
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"CITY_ID\" INTEGER NOT NULL ," + // 1: cityId
-                "\"CITY_NAME\" TEXT);"); // 2: cityName
+                "\"CITY_NAME\" TEXT," + // 2: cityName
+                "\"STATUS\" INTEGER NOT NULL );"); // 3: status
     }
 
     /** Drops the underlying database table. */
@@ -54,47 +56,59 @@ public class SelectCityDao extends AbstractDao<SelectCity, Long> {
     @Override
     protected final void bindValues(DatabaseStatement stmt, SelectCity entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
+ 
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
         stmt.bindLong(2, entity.getCityId());
  
         String cityName = entity.getCityName();
         if (cityName != null) {
             stmt.bindString(3, cityName);
         }
+        stmt.bindLong(4, entity.getStatus());
     }
 
     @Override
     protected final void bindValues(SQLiteStatement stmt, SelectCity entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
+ 
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
         stmt.bindLong(2, entity.getCityId());
  
         String cityName = entity.getCityName();
         if (cityName != null) {
             stmt.bindString(3, cityName);
         }
+        stmt.bindLong(4, entity.getStatus());
     }
 
     @Override
     public Long readKey(Cursor cursor, int offset) {
-        return cursor.getLong(offset + 0);
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     @Override
     public SelectCity readEntity(Cursor cursor, int offset) {
         SelectCity entity = new SelectCity( //
-            cursor.getLong(offset + 0), // id
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getLong(offset + 1), // cityId
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // cityName
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // cityName
+            cursor.getInt(offset + 3) // status
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, SelectCity entity, int offset) {
-        entity.setId(cursor.getLong(offset + 0));
+        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setCityId(cursor.getLong(offset + 1));
         entity.setCityName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setStatus(cursor.getInt(offset + 3));
      }
     
     @Override
@@ -114,7 +128,7 @@ public class SelectCityDao extends AbstractDao<SelectCity, Long> {
 
     @Override
     public boolean hasKey(SelectCity entity) {
-        throw new UnsupportedOperationException("Unsupported for entities with a non-null key");
+        return entity.getId() != null;
     }
 
     @Override

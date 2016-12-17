@@ -24,19 +24,24 @@ import edu.xtu.androidbase.weaher.ui.base.BaseFragment;
 import edu.xtu.androidbase.weaher.ui.base.TerminalToolBarActivity;
 import edu.xtu.androidbase.weaher.ui.weather.adapter.CityWeatherRecycleAdapter;
 import edu.xtu.androidbase.weaher.ui.weather.domain.Weather;
+import edu.xtu.androidbase.weaher.ui.weather.presenter.MainPresenter;
+import edu.xtu.androidbase.weaher.ui.weather.view.IMainView;
 import edu.xtu.androidbase.weaher.util.AppMethods;
 import edu.xtu.androidbase.weaher.util.GridDecoration;
+import edu.xtu.androidbase.weaher.util.LogUtils;
 import edu.xtu.androidbase.weaher.util.view.LoadView;
 
 /**
  * Created by huilin on 2016/11/12.
  */
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseFragment implements IMainView {
 
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
 
     private CityWeatherRecycleAdapter cityWeatherRecycleAdapter;
+    private MainPresenter mainPresenter;
+    private LoadView.IOnNetListener iOnNetListener;
 
     SharedElementCallback sharedElementCallback = new SharedElementCallback() {
         @Override
@@ -48,12 +53,11 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void initDataBeforeView() {
-
+        mainPresenter = new MainPresenter(this);
     }
 
     @Override
     protected void initData() {
-
     }
 
     @Override
@@ -113,8 +117,26 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void getNet(LoadView.IOnNetListener iOnNetListener) {
-        iOnNetListener.getState(LoadView.LoadResult.success);
+        this.iOnNetListener = iOnNetListener;
+        mainPresenter.showWeatherList();
+//        iOnNetListener.getState(LoadView.LoadResult.success);
     }
 
 
+    @Override
+    public void showWeatherList(List<Weather> weathers) {
+//        iOnNetListener.getState(LoadView.LoadResult.success);
+        cityWeatherRecycleAdapter.setDatas(weathers);
+    }
+
+    @Override
+    public void error(String msg) {
+        iOnNetListener.getState(LoadView.LoadResult.error);
+        AppMethods.shwoToast(msg);
+    }
+
+    @Override
+    public void success() {
+        iOnNetListener.getState(LoadView.LoadResult.success);
+    }
 }

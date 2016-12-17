@@ -6,8 +6,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -151,5 +153,22 @@ public class AppMethods {
                 }
             });
         }
+    }
+
+    /**
+     * 获取view的所有parent集合
+     * @param parent
+     * @param list
+     * @return
+     */
+    public static List<ViewParent> getParentView(ViewParent parent,List list){
+        if(parent==null){
+            return list;
+        }else{
+            list.add(parent);
+            getParentView(parent.getParent(),list);
+        }
+        return list;
+
     }
 }

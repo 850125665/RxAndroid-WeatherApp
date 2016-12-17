@@ -12,10 +12,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.security.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -26,14 +29,11 @@ import edu.xtu.androidbase.weaher.ui.base.TerminalToolBarActivity;
 import edu.xtu.androidbase.weaher.ui.weather.adapter.HomeViewPageAdapter;
 import edu.xtu.androidbase.weaher.ui.weather.fragment.CityFragment;
 import edu.xtu.androidbase.weaher.ui.weather.fragment.MainFragment;
-import edu.xtu.androidbase.weaher.ui.weather.fragment.SelectCityFragment;
-import edu.xtu.androidbase.weaher.ui.weather.model.usercase.DrawerUseCase;
+import edu.xtu.androidbase.weaher.ui.weather.fragment.SelectSelectCityFragment;
 import edu.xtu.androidbase.weaher.ui.weather.presenter.HomePresenter;
 import edu.xtu.androidbase.weaher.ui.weather.view.IHomeView;
 import edu.xtu.androidbase.weaher.util.AppMethods;
-import edu.xtu.androidbase.weaher.util.RxUtil.RxHelp;
-import rx.Observable;
-import rx.Subscriber;
+import edu.xtu.androidbase.weaher.util.LogUtils;
 
 /**
  * Created by huilin on 2016/11/6.
@@ -54,7 +54,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, NavigationV
     DrawerLayout drawerLayout;
     @Bind(R.id.nav_view)
     NavigationView navView;
-
+    public long backTime;
     private HomePresenter homePresenter;
     private HomeViewPageAdapter homeViewPageAdapter;
     private List<Fragment> fragments = new ArrayList<>();
@@ -63,6 +63,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, NavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        getWindow().setWindowAnimations(R.style.activity_anim_alpha);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         initView();
@@ -118,7 +119,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, NavigationV
 
 
                         } else {
-                            TerminalToolBarActivity.show(mContext, SelectCityFragment.class, null);
+                            TerminalToolBarActivity.show(mContext, SelectSelectCityFragment.class, null);
                         }
                     }
                 });
@@ -166,11 +167,27 @@ public class HomeActivity extends BaseActivity implements IHomeView, NavigationV
         drawerLayout.closeDrawer(GravityCompat.START);
         switch (item.getItemId()) {
             case R.id.nav_city:
-                TerminalToolBarActivity.show(mContext, SelectCityFragment.class, null);
+                TerminalToolBarActivity.show(mContext, SelectSelectCityFragment.class, null);
                 break;
         }
 
 
         return false;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Date date = new Date();
+        if(event.getKeyCode() == KeyEvent.KEYCODE_BACK){
+            if(date.getTime()-backTime<=2000){
+                return super.onKeyDown(keyCode, event);
+            }
+            backTime = date.getTime();
+            AppMethods.shwoToast("双击返回键退出");
+        }else {
+            return super.onKeyDown(keyCode, event);
+        }
+        return false;
+
     }
 }

@@ -1,6 +1,8 @@
 package edu.xtu.androidbase.weaher.ui.weather.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,7 +47,7 @@ public class CityWeatherRecycleAdapter extends RecyclerView.Adapter {
         this.mContext = parent.getContext();
         RecyclerView.ViewHolder viewHolder;
         View view = null;
-        if (viewType == TYPE_HEAD) {;
+        if (viewType == TYPE_HEAD) {
             view = LayoutInflater.from(mContext).inflate( R.layout.item_head, parent,false);
             viewHolder = new HeadViewHolder(view);
         } else {
@@ -60,9 +62,10 @@ public class CityWeatherRecycleAdapter extends RecyclerView.Adapter {
 
         int itemViewType = this.getItemViewType(position);
         if (itemViewType == TYPE_HEAD) {
-
+            setHeadViewData((HeadViewHolder)holder,position);
         } else {
             GridViewHolder holder1 = (GridViewHolder) holder;
+            setGridViewData(holder1,position);
             ((GridViewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -76,9 +79,24 @@ public class CityWeatherRecycleAdapter extends RecyclerView.Adapter {
 
     }
 
+    private void setGridViewData(GridViewHolder holder1, int position) {
+        Weather weather = weathers.get(position);
+        holder1.contentImg.setImageDrawable(getImgDrawable(Integer.valueOf(weather.now.cond.code)));
+        holder1.contentTv.setText(weather.basic.city);
+    }
+
+    private void setHeadViewData(HeadViewHolder holder, int position) {
+        Weather weather = weathers.get(position);
+        holder.tvCity.setText(weather.basic.city);
+        holder.tvWeather.setText(weather.now.tmp+"℃");
+        holder.imgWeather.setImageDrawable(getImgDrawable(Integer.valueOf(weather.now.cond.code)));
+        holder.tvWeatherMsg.setText(weather.suggestion.sport.txt);
+
+    }
+
     @Override
     public int getItemCount() {
-        return 10;
+        return weathers.size();
     }
 
     @Override
@@ -120,5 +138,23 @@ public class CityWeatherRecycleAdapter extends RecyclerView.Adapter {
             super(view);
             ButterKnife.bind(this, view);
         }
+    }
+
+    public Drawable getImgDrawable(int code){
+        Drawable drawable = ContextCompat.getDrawable(mContext,R.mipmap.sketchy_weather_hot);
+        if(code == 100){
+            drawable = ContextCompat.getDrawable(mContext,R.mipmap.sketchy_weather_hot);
+        }else if(code>=101 && code<=104){
+            drawable = ContextCompat.getDrawable(mContext,R.mipmap.sketchy_weather_cloud);
+        }else if(code>=200 && code<=213){
+            drawable = ContextCompat.getDrawable(mContext,R.mipmap.sketchy_weather_wind);
+        }else if(code>=300 && code<=313){
+            drawable = ContextCompat.getDrawable(mContext,R.mipmap.sketchy_weather_rain);
+        }else if(code>=400 && code<=407){
+            drawable = ContextCompat.getDrawable(mContext,R.mipmap.sketchy_weather_snow);
+        }else if(code>=500 && code<=502){
+            drawable = ContextCompat.getDrawable(mContext,R.mipmap.sketchy_weather_haze);
+        }
+        return drawable;
     }
 }

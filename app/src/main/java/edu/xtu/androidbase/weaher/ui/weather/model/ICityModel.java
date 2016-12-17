@@ -2,17 +2,13 @@ package edu.xtu.androidbase.weaher.ui.weather.model;
 
 import java.util.List;
 
-import edu.xtu.androidbase.weaher.ui.weather.domain.City;
-import edu.xtu.androidbase.weaher.ui.weather.model.usercase.CityUseCase;
-import edu.xtu.androidbase.weaher.ui.weather.model.usercase.ProvinceUseCase;
+import edu.xtu.androidbase.weaher.ui.weather.domain.SelectCity;
+import rx.Observable;
 
 /**
- * Created by huilin on 2016/12/12.
+ * Created by huilin on 2016/12/14.
  */
 
 public interface ICityModel {
-    public CityUseCase getCityList();
-    public CityUseCase getCityListById(String id);
-    public ProvinceUseCase getProvinceList();
-
+    public Observable<List<SelectCity>> showListCity();
 }

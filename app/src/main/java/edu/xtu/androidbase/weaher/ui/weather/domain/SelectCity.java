@@ -8,10 +8,10 @@ import org.greenrobot.greendao.annotation.Generated;
 /**
  * Created by huilin on 2016/12/14.
  */
-@Entity
+@Entity(nameInDb = "SELECT_CITY")
 public class SelectCity {
     @Id(autoincrement = true)
-    private long id;
+    private Long id;
 
     @Property
     private long cityId;
@@ -19,8 +19,19 @@ public class SelectCity {
     @Property
     private String cityName;
 
+    @Property
+    private int status = 0;
+
+    public int getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public String getCityName() {
-        return this.cityName;
+        return this.cityName.substring(0,cityName.length());
     }
 
     public void setCityName(String cityName) {
@@ -35,19 +46,20 @@ public class SelectCity {
         this.cityId = cityId;
     }
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    @Generated(hash = 2042066145)
-    public SelectCity(long id, long cityId, String cityName) {
+    @Generated(hash = 599639398)
+    public SelectCity(Long id, long cityId, String cityName, int status) {
         this.id = id;
         this.cityId = cityId;
         this.cityName = cityName;
+        this.status = status;
     }
 
     @Generated(hash = 58876853)
@@ -55,5 +67,13 @@ public class SelectCity {
     }
 
 
-
+    @Override
+    public String toString() {
+        return "SelectCity{" +
+                "id=" + id +
+                ", cityId=" + cityId +
+                ", cityName='" + cityName + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

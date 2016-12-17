@@ -19,5 +19,6 @@ public class TestApplication extends Application {
         AppInfo.initAppInfo(this,true,HomeActivity.class);
         DeviceUtils.getInstance().init(getApplicationContext());
         DbManager.getInstant().init(R.raw.china_city,DbManager.CITY_DB,this);
+        DbManager.enableQueryBuilderLog();
     }
 }

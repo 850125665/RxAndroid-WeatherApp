@@ -16,6 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.xtu.androidbase.weaher.R;
 import edu.xtu.androidbase.weaher.ui.weather.domain.City;
+import edu.xtu.androidbase.weaher.ui.weather.domain.SelectCity;
 
 /**
  * Created by huilin on 2016/12/5.
@@ -25,7 +26,7 @@ public class CityRecycleAdapter extends RecyclerView.Adapter<CityRecycleAdapter.
     private Context mContext;
 
 
-    private List<City> cities = new ArrayList<>();
+    public List<SelectCity> cities = new ArrayList<>();
 
 
     @Override
@@ -35,16 +36,23 @@ public class CityRecycleAdapter extends RecyclerView.Adapter<CityRecycleAdapter.
         return new ViewHolder(inflate);
     }
 
+    public void setDatas(Collection datas){
+        cities.clear();
+        if(!datas.isEmpty()){
+            cities.addAll(datas);
+        }
+        notifyDataSetChanged();
+    }
 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        holder.tvCity.setText(cities.get(position).getCityName());
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return cities.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

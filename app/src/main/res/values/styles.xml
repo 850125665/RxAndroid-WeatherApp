@@ -46,4 +46,8 @@
         <item name="android:windowEnterAnimation">@anim/left_in</item>
         <item name="android:windowExitAnimation">@anim/left_out</item>
     </style>
+    <style name="activity_anim_alpha">
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@anim/alpha_out</item>
+    </style>
 </resources>

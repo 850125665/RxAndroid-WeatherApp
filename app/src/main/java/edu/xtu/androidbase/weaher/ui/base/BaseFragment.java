@@ -25,7 +25,7 @@ import edu.xtu.androidbase.weaher.util.view.ToolBar;
 public abstract class BaseFragment extends RxFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public String TAG = this.getClass().getName();
-    private SwipeRefreshLayout swipeRefreshLayout;
+    public SwipeRefreshLayout swipeRefreshLayout;
     public ToolBar toolBar;
     private FrameLayout frameContent;
 
@@ -204,6 +204,14 @@ public abstract class BaseFragment extends RxFragment implements SwipeRefreshLay
      */
     public void showToolBar(){
         toolBar.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 设置是否刷新
+     * @param enable
+     */
+    public void setRefreshEnable(boolean enable){
+        swipeRefreshLayout.setEnabled(enable);
     }
 
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Environment;
 
 import org.greenrobot.greendao.AbstractDaoMaster;
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -110,8 +111,15 @@ public class DbManager {
     public DaoMaster getDaoMaster(String dbName) {
         if(daoMaster==null){
             MyOpenHelper myOpenHelper = new MyOpenHelper(mContext,dbName);
+//            DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(mContext,dbName);
+            myOpenHelper.onUpgrade(myOpenHelper.getWritableDb(),1,DaoMaster.SCHEMA_VERSION);
+
             daoMaster = new DaoMaster(myOpenHelper.getWritableDb());
         }
         return daoMaster;
+    }
+    public static void enableQueryBuilderLog(){
+        QueryBuilder.LOG_SQL = true;
+        QueryBuilder.LOG_VALUES = true;
     }
 }

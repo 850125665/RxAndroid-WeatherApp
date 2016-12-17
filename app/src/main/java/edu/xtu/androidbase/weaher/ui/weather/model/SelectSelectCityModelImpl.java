@@ -1,8 +1,5 @@
 package edu.xtu.androidbase.weaher.ui.weather.model;
 
-import java.util.List;
-
-import edu.xtu.androidbase.weaher.ui.weather.domain.City;
 import edu.xtu.androidbase.weaher.ui.weather.model.usercase.CityUseCase;
 import edu.xtu.androidbase.weaher.ui.weather.model.usercase.ProvinceUseCase;
 
@@ -10,12 +7,12 @@ import edu.xtu.androidbase.weaher.ui.weather.model.usercase.ProvinceUseCase;
  * Created by huilin on 2016/12/12.
  */
 
-public class CityModelImpl implements ICityModel {
+public class SelectSelectCityModelImpl implements ISelectCityModel {
 
     private CityUseCase cityUseCase;
     private ProvinceUseCase provinceUseCase;
 
-    public CityModelImpl() {
+    public SelectSelectCityModelImpl() {
         cityUseCase = new CityUseCase();
         provinceUseCase = new ProvinceUseCase();
     }
