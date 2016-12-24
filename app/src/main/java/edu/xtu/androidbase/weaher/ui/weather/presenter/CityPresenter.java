@@ -1,6 +1,7 @@
 package edu.xtu.androidbase.weaher.ui.weather.presenter;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import edu.xtu.androidbase.weaher.ui.weather.domain.SelectCity;
 import edu.xtu.androidbase.weaher.ui.weather.model.CityModel;
@@ -22,8 +23,8 @@ public class CityPresenter {
         cityModel = new CityModel();
     }
 
-    public void showCityList(){
-        cityModel.showListCity()
+    public void showCityList(int pageIndex,int pageSize){
+        cityModel.showListCity(pageIndex,pageSize)
                 .subscribe(new Subscriber<List<SelectCity>>() {
                     @Override
                     public void onCompleted() {

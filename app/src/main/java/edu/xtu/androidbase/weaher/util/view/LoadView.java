@@ -7,12 +7,13 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import edu.xtu.androidbase.weaher.R;
-import edu.xtu.androidbase.weaher.util.AppInfo;
+import edu.xtu.androidbase.weaher.util.LogUtils;
 
 /**
  * Created by huilin on 2016/8/20.
  */
 public abstract class LoadView extends FrameLayout {
+    private String TAG = this.getClass().getSimpleName();
     /**
      * 数据为空布局
      */
@@ -61,6 +62,11 @@ public abstract class LoadView extends FrameLayout {
      * 当前状态
      */
     public int currentState = UNKNOW_STATE;
+
+    /**
+     * 上个状态
+     */
+    public int beforeState = UNKNOW_STATE;
 
 
     /**
@@ -160,16 +166,16 @@ public abstract class LoadView extends FrameLayout {
     public void showPage() {
 
         if (loadingView != null) {
-            loadingView.setVisibility(currentState == UNKNOW_STATE || currentState == LOADING_STATE ? VISIBLE : INVISIBLE);
+            loadingView.setVisibility((currentState == UNKNOW_STATE || currentState == LOADING_STATE) && beforeState != SUCCESS_STATE ? VISIBLE : INVISIBLE);
         }
         if (emptyView != null) {
             emptyView.setVisibility(currentState == EMPTY_STATE ? VISIBLE : INVISIBLE);
         }
         if (errorView != null) {
-            errorView.setVisibility(currentState == ERROR_STATE ? VISIBLE : INVISIBLE);
+            errorView.setVisibility(currentState == ERROR_STATE && beforeState != SUCCESS_STATE ? VISIBLE : INVISIBLE);
         }
         if (successView != null) {
-            successView.setVisibility(currentState == SUCCESS_STATE ? VISIBLE : INVISIBLE);
+            successView.setVisibility(currentState == SUCCESS_STATE ||(beforeState == SUCCESS_STATE && currentState!=EMPTY_STATE ) ? VISIBLE : INVISIBLE);
         }
     }
 
@@ -210,6 +216,9 @@ public abstract class LoadView extends FrameLayout {
         loadNet(new IOnNetListener() {
             @Override
             public void getState(LoadResult result) {
+                if (currentState == SUCCESS_STATE) {
+                    beforeState = currentState;
+                }
                 currentState = result.getValue();
                 showPage();
             }

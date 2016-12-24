@@ -17,6 +17,7 @@ import edu.xtu.androidbase.weaher.BuildConfig;
 import edu.xtu.androidbase.weaher.R;
 import edu.xtu.androidbase.weaher.ui.base.BaseActivity;
 import edu.xtu.androidbase.weaher.ui.weather.activity.HomeActivity;
+import edu.xtu.androidbase.weaher.ui.weather.domain.City;
 import edu.xtu.androidbase.weaher.ui.weather.domain.SelectCity;
 import edu.xtu.androidbase.weaher.ui.weather.domain.Weather;
 import edu.xtu.androidbase.weaher.ui.weather.domain.WeatherAPI;
@@ -70,70 +71,8 @@ public class TestActivity extends BaseActivity {
 
             }
         }).setDuration(2000).start();
-//        Log.v("xxxxxxx","1234");
-//        ApiService.getInstanct().getWeather("北京市", BuildConfig.HE_FENG_KEY, new HttpSubscriber<WeatherAPI>() {
-//            @Override
-//            public void error(HttpModel httpModel) {
-//                AppMethods.shwoToast(httpModel.getMsg());
-//            }
+
 //
-//            @Override
-//            public void success(WeatherAPI weatherAPI) {
-//                LogUtils.d(TAG,weatherAPI.toString());
-//            }
-//        });
-//        Intent intent = new Intent(mContext, HomeActivity.class);
-//        startActivity(intent);
-//        overridePendingTransition(R.anim.alpha_enter,R.anim.alpha_out);
-        final List<SelectCity> selectCities = new ArrayList<>();
-        SelectCity selectCity = new SelectCity();
-        selectCity.setCityName("北京");
-        SelectCity selectCity1 = new SelectCity();
-        selectCity1.setCityName("北京市");
-        selectCities.add(selectCity);
-        selectCities.add(selectCity1);
-//        Observable.defer(new Func0<Observable<SelectCity>>() {
-//            @Override
-//            public Observable<SelectCity> call() {
-//                return Observable.from(selectCities);
-//            }
-//        })
-//                .flatMap(new Func1<SelectCity, Observable<Weather>>() {
-//                    @Override
-//                    public Observable<Weather> call(SelectCity selectCity) {
-//                        LogUtils.d(TAG, selectCity.toString());
-//                        return ApiService.getInstanct().getWeather(selectCity.getCityName())
-//                                .map(new Func1<WeatherAPI, Weather>() {
-//                                    @Override
-//                                    public Weather call(WeatherAPI weatherAPI) {
-//                                        return weatherAPI.mHeWeatherDataService30s.get(0);
-//                                    }
-//                                });
-//
-//                    }
-//                })
-//                .filter(new Func1<Weather, Boolean>() {
-//                    @Override
-//                    public Boolean call(Weather weather) {
-//                        return "unknown city".equals(weather.status);
-//                    }
-//                })
-//                .subscribe(new Subscriber<Weather>() {
-//                    @Override
-//                    public void onCompleted() {
-//                        LogUtils.d(TAG,"onCompleted");
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(Weather weather) {
-//                        LogUtils.d(TAG,"onNext");
-//                    }
-//                });
 
 
 

@@ -23,10 +23,10 @@
         <!--<item name="android:windowActionBar">true</item>-->
         <!--<item name="android:windowNoTitle">true</item>-->
     </style>
-    <style name="MyProgressBar" parent="Base.Widget.AppCompat.ProgressBar">
-        <item name="android:indeterminateTint">@color/colorPrimary</item>
-        <item name="android:indeterminateTintMode">src_atop</item>
-    </style>
+    <!--<style name="MyProgressBar" parent="Base.Widget.AppCompat.ProgressBar">-->
+        <!--<item name="android:indeterminateTint">@color/colorPrimary</item>-->
+        <!--<item name="android:indeterminateTintMode">src_atop</item>-->
+    <!--</style>-->
     <style name="dialog" parent="@android:style/Theme.Dialog" >
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowFrame">@null</item>

@@ -15,25 +15,39 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.xtu.androidbase.weaher.R;
-import edu.xtu.androidbase.weaher.ui.weather.domain.City;
 import edu.xtu.androidbase.weaher.ui.weather.domain.SelectCity;
+import edu.xtu.androidbase.weaher.util.BaseAdapter;
 
 /**
  * Created by huilin on 2016/12/5.
  */
 
-public class CityRecycleAdapter extends RecyclerView.Adapter<CityRecycleAdapter.ViewHolder> {
+public class CityRecycleAdapter extends BaseAdapter {
     private Context mContext;
 
 
     public List<SelectCity> cities = new ArrayList<>();
 
 
+
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
-        View inflate = LayoutInflater.from(mContext).inflate(R.layout.item_city, parent, false);
-        return new ViewHolder(inflate);
+    protected void onBindContentView(RecyclerView.ViewHolder holder, int position) {
+        int itemViewType = getItemViewType(position);
+        if(itemViewType == COMMON_TYPE){
+            ViewHolder cityHolder = (ViewHolder) holder;
+            cityHolder.tvCity.setText(cities.get(position).getCityName());
+        }
+    }
+
+
+    @Override
+    public  RecyclerView.ViewHolder getCommonViewHolder(ViewGroup viewGroup, int viewType) {
+        if(COMMON_TYPE == viewType){
+            View inflate = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_city, viewGroup, false);
+            return new ViewHolder(inflate);
+        }
+
+        return null;
     }
 
     public void setDatas(Collection datas){
@@ -44,14 +58,18 @@ public class CityRecycleAdapter extends RecyclerView.Adapter<CityRecycleAdapter.
         notifyDataSetChanged();
     }
 
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tvCity.setText(cities.get(position).getCityName());
+    public void addDatas(Collection datas){
+        if(!datas.isEmpty()){
+            cities.addAll(datas);
+        }
+        notifyDataSetChanged();
     }
 
+
+
+
     @Override
-    public int getItemCount() {
+    public int getCount() {
         return cities.size();
     }
 

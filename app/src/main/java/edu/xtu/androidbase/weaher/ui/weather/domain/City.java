@@ -11,6 +11,7 @@ import org.greenrobot.greendao.annotation.Property;
 @Entity(nameInDb = "T_City",createInDb=false)
 public class City  {
 
+
     @Id
     @Property(nameInDb = "citySort")
     private String citySort;

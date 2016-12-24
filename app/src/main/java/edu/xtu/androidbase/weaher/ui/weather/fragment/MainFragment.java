@@ -119,7 +119,6 @@ public class MainFragment extends BaseFragment implements IMainView {
     protected void getNet(LoadView.IOnNetListener iOnNetListener) {
         this.iOnNetListener = iOnNetListener;
         mainPresenter.showWeatherList();
-//        iOnNetListener.getState(LoadView.LoadResult.success);
     }
 
 
@@ -127,6 +126,11 @@ public class MainFragment extends BaseFragment implements IMainView {
     public void showWeatherList(List<Weather> weathers) {
 //        iOnNetListener.getState(LoadView.LoadResult.success);
         cityWeatherRecycleAdapter.setDatas(weathers);
+        if(weathers!=null && weathers.isEmpty()){
+            iOnNetListener.getState(LoadView.LoadResult.empty);
+        }else{
+            iOnNetListener.getState(LoadView.LoadResult.success);
+        }
     }
 
     @Override
@@ -137,6 +141,6 @@ public class MainFragment extends BaseFragment implements IMainView {
 
     @Override
     public void success() {
-        iOnNetListener.getState(LoadView.LoadResult.success);
+//        iOnNetListener.getState(LoadView.LoadResult.success);
     }
 }

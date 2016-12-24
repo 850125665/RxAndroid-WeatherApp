@@ -2,10 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
+    android:layout_marginBottom="@dimen/material_16dp"
+    android:gravity="center"
+    android:orientation="horizontal">
+   <ProgressBar
+       android:id="@+id/progress_bar"
+       android:layout_gravity="center_vertical"
+       android:layout_width="@dimen/material_16dp"
+       android:layout_height="@dimen/material_16dp" />
     <TextView
-        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/material_8dp"
+        android:id="@+id/tv_foot"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="I am foot" />

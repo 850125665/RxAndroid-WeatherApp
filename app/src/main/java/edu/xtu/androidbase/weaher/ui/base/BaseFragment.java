@@ -215,4 +215,5 @@ public abstract class BaseFragment extends RxFragment implements SwipeRefreshLay
     }
 
 
+
 }

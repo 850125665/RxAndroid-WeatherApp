@@ -10,5 +10,5 @@ import rx.Observable;
  */
 
 public interface ICityModel {
-    public Observable<List<SelectCity>> showListCity();
+    public Observable<List<SelectCity>> showListCity(int pageIndex,int pageSize);
 }

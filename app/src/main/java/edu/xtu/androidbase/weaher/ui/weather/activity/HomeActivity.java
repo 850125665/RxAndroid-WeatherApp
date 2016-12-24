@@ -16,7 +16,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.security.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +32,6 @@ import edu.xtu.androidbase.weaher.ui.weather.fragment.SelectSelectCityFragment;
 import edu.xtu.androidbase.weaher.ui.weather.presenter.HomePresenter;
 import edu.xtu.androidbase.weaher.ui.weather.view.IHomeView;
 import edu.xtu.androidbase.weaher.util.AppMethods;
-import edu.xtu.androidbase.weaher.util.LogUtils;
 
 /**
  * Created by huilin on 2016/11/6.
@@ -89,6 +87,8 @@ public class HomeActivity extends BaseActivity implements IHomeView, NavigationV
         titles.add("天气");
         CityFragment cityFragment = new CityFragment();
         fragments.add(cityFragment);
+//        CityTestFragment cityTestFragment = new CityTestFragment();
+//        fragments.add(cityTestFragment);
         titles.add("城市");
 
         tabLayout.setTabMode(TabLayout.MODE_FIXED);

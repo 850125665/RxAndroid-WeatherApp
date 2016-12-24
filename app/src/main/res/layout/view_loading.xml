@@ -12,7 +12,6 @@
 
         <ProgressBar
             android:id="@android:id/progress"
-            style="@style/MyProgressBar"
             android:layout_width="50dp"
             android:layout_height="50dp" />
     </LinearLayout>
