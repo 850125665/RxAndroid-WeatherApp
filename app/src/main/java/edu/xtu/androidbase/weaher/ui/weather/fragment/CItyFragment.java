@@ -10,13 +10,18 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.xtu.androidbase.weaher.R;
 import edu.xtu.androidbase.weaher.ui.base.BaseFragment;
-import edu.xtu.androidbase.weaher.ui.test.TouchListener;
+import edu.xtu.androidbase.weaher.ui.base.PageBaseFragment;
+import edu.xtu.androidbase.weaher.util.BaseAdapter;
+import edu.xtu.androidbase.weaher.util.LogUtils;
+import edu.xtu.androidbase.weaher.util.ThreadManager;
+import edu.xtu.androidbase.weaher.util.TouchListener;
 import edu.xtu.androidbase.weaher.ui.weather.adapter.CityRecycleAdapter;
 import edu.xtu.androidbase.weaher.ui.weather.domain.City;
 import edu.xtu.androidbase.weaher.ui.weather.domain.SelectCity;
 import edu.xtu.androidbase.weaher.ui.weather.presenter.CityPresenter;
 import edu.xtu.androidbase.weaher.ui.weather.view.ICityView;
 import edu.xtu.androidbase.weaher.util.AppMethods;
+import edu.xtu.androidbase.weaher.util.DbManager;
 import edu.xtu.androidbase.weaher.util.LineDecoration;
 import edu.xtu.androidbase.weaher.util.RxUtil.RxBus;
 import edu.xtu.androidbase.weaher.util.view.LoadView;
@@ -26,7 +31,7 @@ import rx.Subscription;
 /**
  * Created by huilin on 2016/11/12.
  */
-public class CityFragment extends BaseFragment implements ICityView {
+public class CityFragment extends PageBaseFragment implements ICityView{
 
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -35,6 +40,7 @@ public class CityFragment extends BaseFragment implements ICityView {
     private CityPresenter cityPresenter;
     Subscription rxBus;
 
+
     @Override
     protected void initDataBeforeView() {
         cityPresenter = new CityPresenter(this);
@@ -42,6 +48,7 @@ public class CityFragment extends BaseFragment implements ICityView {
 
     @Override
     protected void initData() {
+        super.initData();
         rxBus = RxBus.getInstance().toObservable(City.class)
                 .subscribe(new Subscriber<City>() {
                     @Override
@@ -56,9 +63,25 @@ public class CityFragment extends BaseFragment implements ICityView {
 
                     @Override
                     public void onNext(City city) {
-                        cityPresenter.showCityList();
+                       isFresh = true;
+                        cityPresenter.showCityList(0,PAGE_NUM);
                     }
                 });
+    }
+
+    @Override
+    protected RecyclerView getRecycleView() {
+        return recyclerView;
+    }
+
+    @Override
+    protected BaseAdapter getBaseAdapter() {
+        return cityRecycleAdapter;
+    }
+
+    @Override
+    protected void loadMoreNet() {
+        cityPresenter.showCityList((cityRecycleAdapter.getCount()-1)/ PAGE_NUM+1, PAGE_NUM);
     }
 
     @Override
@@ -68,33 +91,33 @@ public class CityFragment extends BaseFragment implements ICityView {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(new LineDecoration(mContext));
         cityRecycleAdapter = new CityRecycleAdapter();
+        cityRecycleAdapter.setOpenLoadMore(true);
+        cityRecycleAdapter.setLoadMoreListener(this);
         recyclerView.setAdapter(cityRecycleAdapter);
-        TouchListener touchListener = new TouchListener(recyclerView,cityRecycleAdapter.cities,cityRecycleAdapter);
+        TouchListener touchListener = new TouchListener(recyclerView, cityRecycleAdapter.cities, cityRecycleAdapter);
         touchListener.setOnClickListener(new TouchListener.OnClickListener() {
             @Override
             public <T extends RecyclerView.ViewHolder> void onItemClickListener(T t, int position) {
-                AppMethods.shwoToast("单点击"+position);
+
             }
 
             @Override
             public <T extends RecyclerView.ViewHolder> void onItemLongClickListener(T t, int position) {
-                AppMethods.shwoToast("长按"+position);
             }
         });
         recyclerView.addOnItemTouchListener(touchListener);
-        touchListener.dragItem(swipeRefreshLayout);
-//        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//            }
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//
-//
-//            }
-//        });
+        touchListener.dragItem(swipeRefreshLayout, new TouchListener.DragItemListener() {
+            @Override
+            public void drag() {
+
+            }
+
+            @Override
+            public void swipe(int position) {
+                SelectCity selectCity = cityRecycleAdapter.cities.get(position);
+                DbManager.getInstant().mDaoSession.getSelectCityDao().delete(selectCity);
+            }
+        });
 
     }
 
@@ -103,28 +126,41 @@ public class CityFragment extends BaseFragment implements ICityView {
         return R.layout.fragment_city;
     }
 
+
     @Override
     protected void getNet(LoadView.IOnNetListener iOnNetListener) {
+        super.getNet(iOnNetListener);
         this.iOnNetListener = iOnNetListener;
-        cityPresenter.showCityList();
-//        iOnNetListener.getState(LoadView.LoadResult.success);
+        cityPresenter.showCityList(0, PAGE_NUM);
     }
-
 
     @Override
     public void showListCity(List<SelectCity> selectCities) {
-        cityRecycleAdapter.setDatas(selectCities);
+        if (isFreshData()) {
+            if(selectCities.isEmpty()){
+                iOnNetListener.getState(LoadView.LoadResult.empty);
+            }else{
+                iOnNetListener.getState(LoadView.LoadResult.success);
+            }
+            cityRecycleAdapter.setDatas(selectCities);
+        } else {
+
+            cityRecycleAdapter.addDatas(selectCities);
+            iOnNetListener.getState(LoadView.LoadResult.success);
+        }
     }
 
     @Override
     public void error(String msg) {
         AppMethods.shwoToast(msg);
         iOnNetListener.getState(LoadView.LoadResult.error);
+        netCallBack(false);
     }
 
     @Override
     public void success() {
-        iOnNetListener.getState(LoadView.LoadResult.success);
+//        iOnNetListener.getState(LoadView.LoadResult.success);
+        netCallBack(true);
     }
 
     @Override
@@ -133,5 +169,10 @@ public class CityFragment extends BaseFragment implements ICityView {
         if (rxBus != null && !rxBus.isUnsubscribed()) {
             rxBus.unsubscribe();
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 }

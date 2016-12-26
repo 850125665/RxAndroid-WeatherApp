@@ -1,5 +1,7 @@
 package edu.xtu.androidbase.weaher.ui.weather.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -62,6 +64,9 @@ public class SelectSelectCityFragment extends BaseFragment implements ISelectCit
 //        getActivity().getWindow().setWindowAnimations(R.style.activity_anim);
 //        getActivity().overridePendingTransition(R.anim.left_in,R.anim.left_out);
 //        getActivity().
+        Intent intent = new Intent();
+        intent.putExtra("circular",100);
+        getActivity().setResult(Activity.RESULT_OK,intent);
     }
 
     @Override
@@ -225,4 +230,5 @@ public class SelectSelectCityFragment extends BaseFragment implements ISelectCit
             subscribe.unsubscribe();
         }
     }
+
 }

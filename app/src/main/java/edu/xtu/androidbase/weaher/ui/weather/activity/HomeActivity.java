@@ -1,5 +1,9 @@
 package edu.xtu.androidbase.weaher.ui.weather.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -15,10 +19,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,7 +40,9 @@ import edu.xtu.androidbase.weaher.ui.weather.fragment.MainFragment;
 import edu.xtu.androidbase.weaher.ui.weather.fragment.SelectSelectCityFragment;
 import edu.xtu.androidbase.weaher.ui.weather.presenter.HomePresenter;
 import edu.xtu.androidbase.weaher.ui.weather.view.IHomeView;
+import edu.xtu.androidbase.weaher.util.AppInfo;
 import edu.xtu.androidbase.weaher.util.AppMethods;
+import edu.xtu.androidbase.weaher.util.CircularAnimUtil;
 
 /**
  * Created by huilin on 2016/11/6.
@@ -58,6 +69,10 @@ public class HomeActivity extends BaseActivity implements IHomeView, NavigationV
     private List<Fragment> fragments = new ArrayList<>();
     private List<String> titles = new ArrayList<>();
 
+    private ImageView imageView;
+    private ViewGroup decorView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +92,18 @@ public class HomeActivity extends BaseActivity implements IHomeView, NavigationV
         setSupportActionBar(toolbar);
         initDrawer();
         initViewPage();
+        decorView = (ViewGroup) getWindow().getDecorView();
+        final ViewTreeObserver viewTreeObserver = decorView.getViewTreeObserver();
+        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                imageView = new ImageView(mContext);
+                imageView.setImageResource(R.color.colorPrimary);
+                imageView.setVisibility(View.GONE);
+                decorView.addView(imageView, decorView.getWidth(), decorView.getHeight());
+                decorView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
+        });
 
     }
 
@@ -117,11 +144,11 @@ public class HomeActivity extends BaseActivity implements IHomeView, NavigationV
                     public void onClick(View v) {
                         if (position == 0) {
 
-
                         } else {
-                            TerminalToolBarActivity.show(mContext, SelectSelectCityFragment.class, null);
+                            circularShow();
                         }
                     }
+
                 });
 
 
@@ -178,16 +205,81 @@ public class HomeActivity extends BaseActivity implements IHomeView, NavigationV
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Date date = new Date();
-        if(event.getKeyCode() == KeyEvent.KEYCODE_BACK){
-            if(date.getTime()-backTime<=2000){
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            if (date.getTime() - backTime <= 2000) {
                 return super.onKeyDown(keyCode, event);
             }
             backTime = date.getTime();
             AppMethods.shwoToast("双击返回键退出");
-        }else {
+        } else {
             return super.onKeyDown(keyCode, event);
         }
         return false;
 
+    }
+
+    private void circularShow() {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            int loaction[] = new int[2];
+            imageView.setVisibility(View.VISIBLE);
+            fab.getLocationInWindow(loaction);
+            int cx = loaction[0] + fab.getWidth() / 2;
+            int cy = loaction[1] + fab.getHeight() / 2;
+            float finalRadius = (float) Math.hypot(decorView.getWidth(), decorView.getHeight());
+            Animator circularReveal = null;
+            circularReveal = ViewAnimationUtils.createCircularReveal(imageView, cx, cy, 0, finalRadius);
+            circularReveal.setDuration(1000);
+            circularReveal.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    TerminalToolBarActivity.showForResult(mContext, SelectSelectCityFragment.class, null,100);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                }
+            });
+            circularReveal.start();
+        } else {
+            TerminalToolBarActivity.show(mContext, SelectSelectCityFragment.class, null);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
+
+    }
+
+    private void circularReturn() {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            int loaction[] = new int[2];
+            fab.getLocationInWindow(loaction);
+            int cx = loaction[0] + fab.getWidth() / 2;
+            int cy = loaction[1] + fab.getHeight() / 2;
+            float finalRadius = (float) Math.hypot(decorView.getWidth(), decorView.getHeight());
+            Animator circularReveal = null;
+            circularReveal = ViewAnimationUtils.createCircularReveal(imageView, cx, cy, finalRadius, 0);
+            circularReveal.setDuration(1000);
+            circularReveal.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    imageView.setVisibility(View.GONE);
+                }
+            });
+            circularReveal.start();
+        } else {
+            imageView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                int circularReturn = data.getIntExtra("circular", 0);
+                if (circularReturn == 100) {
+                    circularReturn();
+                }
+            }
+        }
     }
 }

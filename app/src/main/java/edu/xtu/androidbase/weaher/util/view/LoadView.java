@@ -175,7 +175,7 @@ public abstract class LoadView extends FrameLayout {
             errorView.setVisibility(currentState == ERROR_STATE && beforeState != SUCCESS_STATE ? VISIBLE : INVISIBLE);
         }
         if (successView != null) {
-            successView.setVisibility(currentState == SUCCESS_STATE ||(beforeState == SUCCESS_STATE && currentState!=EMPTY_STATE ) ? VISIBLE : INVISIBLE);
+            successView.setVisibility(currentState == SUCCESS_STATE || (beforeState == SUCCESS_STATE && currentState != EMPTY_STATE) ? VISIBLE : INVISIBLE);
         }
     }
 
@@ -186,40 +186,14 @@ public abstract class LoadView extends FrameLayout {
         if (currentState == UNKNOW_STATE || currentState == LOADING_STATE || currentState == EMPTY_STATE || currentState == ERROR_STATE) {
             currentState = LOADING_STATE;
         }
-//        final Thread thread= new Thread(){
-//            @Override
-//            public void run() {
-//                try {
-//                    if(currentState!=SUCCESS_STATE){
-//                        sleep(2000);
-//                    }
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//               loadNet(new IOnNetListener() {
-//                    @Override
-//                    public void getState(final LoadResult result) {
-//                        AppInfo.getAppInstant().getUiHandler().post(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                currentState=result.getValue();
-//                                showPage();
-//                            }
-//                        });
-//                    }
-//                });
-//
-//
-//            }
-//        };
-//        thread.start();
         loadNet(new IOnNetListener() {
             @Override
             public void getState(LoadResult result) {
-                if (currentState == SUCCESS_STATE) {
+
+                currentState = result.getValue();
+                if (currentState == SUCCESS_STATE || currentState == EMPTY_STATE) {
                     beforeState = currentState;
                 }
-                currentState = result.getValue();
                 showPage();
             }
         });

@@ -214,6 +214,15 @@ public abstract class BaseFragment extends RxFragment implements SwipeRefreshLay
         swipeRefreshLayout.setEnabled(enable);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        LogUtils.d(TAG,"onStop");
+    }
 
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        LogUtils.d(TAG,"start");
+    }
 }
