@@ -12,9 +12,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.xtu.androidbase.weaher.R;
 import edu.xtu.androidbase.weaher.ui.base.BaseFragment;
+import edu.xtu.androidbase.weaher.ui.weather.adapter.CityWeatherRecycleAdapter;
 import edu.xtu.androidbase.weaher.ui.weather.adapter.WeatherDetailRecycleAdapter;
+import edu.xtu.androidbase.weaher.ui.weather.domain.Weather;
 import edu.xtu.androidbase.weaher.util.LineDecoration;
 import edu.xtu.androidbase.weaher.util.LogUtils;
+import edu.xtu.androidbase.weaher.util.TouchListener;
 import edu.xtu.androidbase.weaher.util.view.CommonDialog;
 import edu.xtu.androidbase.weaher.util.view.LoadView;
 
@@ -33,7 +36,7 @@ public class WeatherDetailFragment extends BaseFragment {
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
     private WeatherDetailRecycleAdapter weatherDetailRecycleAdapter;
-
+    private Weather weather;
     @Override
     protected void initDataBeforeView() {
 
@@ -47,53 +50,27 @@ public class WeatherDetailFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this, view);
+        setRefreshEnable(false);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new LineDecoration(mContext));
         weatherDetailRecycleAdapter = new WeatherDetailRecycleAdapter();
         recyclerView.setAdapter(weatherDetailRecycleAdapter);
         showToolBar();
-        toolBar.setToolTitle("北京");
+
 
         String tag = data.getString("transition");
+        weather = (Weather) data.getSerializable("weather");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getActivity().postponeEnterTransition();
-            LogUtils.e(TAG, tag);
             imgWeather.setTransitionName(tag);
-            view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-
-                    return true;
-                }
-            });
-
+            getActivity().startPostponedEnterTransition();
         }
-        tvCity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                 final CommonDialog commonDialog = new CommonDialog.Builder(mContext)
-                        .setContent("你好啊")
-                        .setLeft("取消")
-                        .setRight("确定")
-                        .create();
-                commonDialog.btLeft.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        commonDialog.dismiss();
-                    }
-                });
-                commonDialog.btRight.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        commonDialog.dismiss();
-                    }
-                });
-
-                commonDialog.show();
-            }
-        });
-
+        toolBar.setToolTitle(weather.basic.city);
+        tvCity.setText(weather.basic.city);
+        imgWeather.setImageDrawable(CityWeatherRecycleAdapter.getImgDrawable(mContext,Integer.valueOf(weather.now.cond.code)));
+        tvDesc.setText(weather.suggestion.sport.txt);
+        weatherDetailRecycleAdapter.setDatas(weather.dailyForecast);
     }
 
     @Override
@@ -104,9 +81,9 @@ public class WeatherDetailFragment extends BaseFragment {
     @Override
     protected void getNet(LoadView.IOnNetListener iOnNetListener) {
         iOnNetListener.getState(LoadView.LoadResult.success);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getActivity().startPostponedEnterTransition();
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getActivity().startPostponedEnterTransition();
+//        }
 
     }
 

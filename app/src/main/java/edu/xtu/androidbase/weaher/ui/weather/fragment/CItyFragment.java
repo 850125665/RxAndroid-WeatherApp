@@ -106,7 +106,7 @@ public class CityFragment extends PageBaseFragment implements ICityView{
             }
         });
         recyclerView.addOnItemTouchListener(touchListener);
-        touchListener.dragItem(swipeRefreshLayout, new TouchListener.DragItemListener() {
+        touchListener.dragItem( new TouchListener.DragItemListener() {
             @Override
             public void drag() {
 

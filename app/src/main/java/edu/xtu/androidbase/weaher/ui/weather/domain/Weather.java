@@ -7,7 +7,7 @@ import java.util.List;
 
 import edu.xtu.androidbase.weaher.util.Retrofit.HttpModel;
 
-public class Weather extends HttpModel implements Serializable {
+public class Weather extends HttpModel {
 
 
     @SerializedName("aqi") public AqiEntity aqi;

@@ -29,6 +29,7 @@ import edu.xtu.androidbase.weaher.ui.weather.view.IMainView;
 import edu.xtu.androidbase.weaher.util.AppMethods;
 import edu.xtu.androidbase.weaher.util.GridDecoration;
 import edu.xtu.androidbase.weaher.util.LogUtils;
+import edu.xtu.androidbase.weaher.util.TouchListener;
 import edu.xtu.androidbase.weaher.util.view.LoadView;
 
 /**
@@ -42,7 +43,7 @@ public class MainFragment extends BaseFragment implements IMainView {
     private CityWeatherRecycleAdapter cityWeatherRecycleAdapter;
     private MainPresenter mainPresenter;
     private LoadView.IOnNetListener iOnNetListener;
-
+    private TouchListener touchListener;
     SharedElementCallback sharedElementCallback = new SharedElementCallback() {
         @Override
         public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
@@ -80,6 +81,8 @@ public class MainFragment extends BaseFragment implements IMainView {
             @Override
             public void OnClickItem(RecyclerView.ViewHolder holder, int position) {
                 holder = (CityWeatherRecycleAdapter.GridViewHolder) holder;
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("weather",cityWeatherRecycleAdapter.weathers.get(position));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                     ImageView imageView = ((CityWeatherRecycleAdapter.GridViewHolder) holder).contentImg;
@@ -90,7 +93,7 @@ public class MainFragment extends BaseFragment implements IMainView {
 //                    pairs.add(Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME));
 //                    pairs.add(Pair.create(navigationBar,Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME));
                     pairs.add(Pair.create(imageView, String.valueOf(position)));
-                    Bundle bundle = new Bundle();
+
                     bundle.putString("transition", String.valueOf(position));
                     ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(getActivity(), pairs.toArray(new Pair[pairs.size()]));
 
@@ -101,12 +104,24 @@ public class MainFragment extends BaseFragment implements IMainView {
                     bundle.putBundle(TerminalToolBarActivity.SCENE_TRANSITION, activityOptions.toBundle());
                     TerminalToolBarActivity.show(mContext, WeatherDetailFragment.class, bundle);
                 } else {
-                    TerminalToolBarActivity.show(mContext, WeatherDetailFragment.class, new Bundle());
+                    TerminalToolBarActivity.show(mContext, WeatherDetailFragment.class,bundle);
                 }
 
             }
         });
+        touchListener = new TouchListener(recyclerView,cityWeatherRecycleAdapter.weathers,cityWeatherRecycleAdapter);
+        recyclerView.addOnItemTouchListener(touchListener);
+        touchListener.dragItem( new TouchListener.DragItemListener() {
+            @Override
+            public void drag() {
 
+            }
+
+            @Override
+            public void swipe(int position) {
+
+            }
+        });
 
     }
 

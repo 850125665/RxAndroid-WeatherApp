@@ -77,40 +77,18 @@ public class TouchListener implements RecyclerView.OnItemTouchListener {
             case MotionEvent.ACTION_DOWN:
                 downX = e.getX();
                 downY = e.getY();
-                if (viewPager != null) {
-                    viewPager.requestDisallowInterceptTouchEvent(true);
-                }
-                if (swipeRefreshLayout != null) {
-                    swipeRefreshLayout.requestDisallowInterceptTouchEvent(true);
-                }
                 break;
             case MotionEvent.ACTION_MOVE:
 
-                if (e.getX() - downX >0) {
-                    if (viewPager != null) {
-
-                        viewPager.requestDisallowInterceptTouchEvent(false);
-                    }
-                    if (swipeRefreshLayout != null) {
-
-                        swipeRefreshLayout.requestDisallowInterceptTouchEvent(false);
-                    }
-                }
-//
                 break;
             case MotionEvent.ACTION_UP:
-                if (viewPager != null) {
-
-                    viewPager.requestDisallowInterceptTouchEvent(false);
-                }
-                if (swipeRefreshLayout != null) {
-
-                    swipeRefreshLayout.requestDisallowInterceptTouchEvent(false);
-                }
+//                if (viewPager != null) {
+//
+//                    viewPager.requestDisallowInterceptTouchEvent(false);
+//                }
                 break;
         }
-        boolean b = gestureDetectorCompat.onTouchEvent(e);
-        return b;
+        return gestureDetectorCompat.onTouchEvent(e);
     }
 
 
@@ -121,7 +99,7 @@ public class TouchListener implements RecyclerView.OnItemTouchListener {
 
     @Override
     public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
+            LogUtils.d(TAG,"onRequestDisallowInterceptTouchEvent--"+disallowIntercept);
     }
 
     public class ItemTouchHelpGestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -152,6 +130,9 @@ public class TouchListener implements RecyclerView.OnItemTouchListener {
         @Override
         public void onShowPress(MotionEvent e) {
             LogUtils.d(TAG, "onShowPress");
+            if (viewPager != null) {
+                viewPager.requestDisallowInterceptTouchEvent(true);
+            }
         }
 
         @Override
@@ -165,7 +146,12 @@ public class TouchListener implements RecyclerView.OnItemTouchListener {
                     onClickListener.onItemLongClickListener(childViewHolder, childLayoutPosition);
                    if(swipeRefreshLayout!=null){
                        swipeRefreshLayout.setEnabled(false);
+
                    }
+                    if (viewPager != null) {
+
+                        viewPager.requestDisallowInterceptTouchEvent(true);
+                    }
                 }
 
             }
@@ -180,8 +166,7 @@ public class TouchListener implements RecyclerView.OnItemTouchListener {
         <T extends RecyclerView.ViewHolder> void onItemLongClickListener(T t, int position);
     }
 
-    public void dragItem(final SwipeRefreshLayout swipeRefreshLayout, final DragItemListener dragItemListener) {
-        this.swipeRefreshLayout = swipeRefreshLayout;
+    public void dragItem( final DragItemListener dragItemListener) {
         itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
             @Override
             public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
@@ -191,12 +176,12 @@ public class TouchListener implements RecyclerView.OnItemTouchListener {
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                 int dragFlag = 0;
                 int swipeFlag = 0;
-                if (layoutManager instanceof LinearLayoutManager) {
+                if (layoutManager instanceof GridLayoutManager) {
+                    dragFlag = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT  | ItemTouchHelper.RIGHT;
+                } else if (layoutManager instanceof LinearLayoutManager) {
 
                     dragFlag = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
                     swipeFlag = ItemTouchHelper.START;
-                } else if (layoutManager instanceof GridLayoutManager) {
-                    dragFlag = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.START | ItemTouchHelper.END;
                 }
                 return makeMovementFlags(dragFlag, swipeFlag);
             }
@@ -206,8 +191,7 @@ public class TouchListener implements RecyclerView.OnItemTouchListener {
                 LogUtils.d(TAG, "onMove");
                 int from = viewHolder.getAdapterPosition();
                 int to = target.getAdapterPosition();
-                if(to<=list.size()-1){
-
+                if(to<=(list.size()-1) && from<=(list.size()-1)){
                     list.add(to, list.remove(from));
                     adapter.notifyItemMoved(from, to);
                     return true;
@@ -216,10 +200,11 @@ public class TouchListener implements RecyclerView.OnItemTouchListener {
                 }
             }
 
+
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int adapterPosition = viewHolder.getAdapterPosition();
-                if(adapterPosition<=list.size()-1){
+                if(adapterPosition<=(list.size()-1)){
                     dragItemListener.swipe(adapterPosition);
                     adapter.notifyItemRemoved(adapterPosition);
                     list.remove(adapterPosition);
@@ -256,6 +241,10 @@ public class TouchListener implements RecyclerView.OnItemTouchListener {
                                 swipeRefreshLayout.setEnabled(true);
                             }
                         }, 200);
+                    }
+                    if (viewPager != null) {
+
+                        viewPager.requestDisallowInterceptTouchEvent(false);
                     }
 
 

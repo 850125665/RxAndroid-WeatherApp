@@ -9,9 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.xtu.androidbase.weaher.R;
+import edu.xtu.androidbase.weaher.ui.weather.domain.Weather;
 
 /**
  * Created by huilin on 2016/12/1.
@@ -21,6 +26,7 @@ public class WeatherDetailRecycleAdapter extends RecyclerView.Adapter<WeatherDet
 
     private Context mContext;
 
+    private List<Weather.DailyForecastEntity> forecastEntities = new ArrayList<>();
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -31,14 +37,31 @@ public class WeatherDetailRecycleAdapter extends RecyclerView.Adapter<WeatherDet
         return new ViewHolder(view);
     }
 
+    public void setDatas(Collection collection){
+        forecastEntities.clear();
+        if(collection!=null && !collection.isEmpty()){
+            forecastEntities.addAll(collection);
+        }
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Weather.DailyForecastEntity dailyForecastEntity = forecastEntities.get(position);
+        if(dailyForecastEntity!=null){
+            holder.tvDate.setText(dailyForecastEntity.date);
+            holder.tvFan.setText(dailyForecastEntity.wind.dir);
+            holder.tvDay.setText("早上");
+            holder.imgDay.setImageDrawable(CityWeatherRecycleAdapter.getImgDrawable(mContext,Integer.valueOf(dailyForecastEntity.cond.codeD)));
+            holder.tvNight.setText("晚上");
+            holder.imgNight.setImageDrawable(CityWeatherRecycleAdapter.getImgDrawable(mContext,Integer.valueOf(dailyForecastEntity.cond.codeN)));
 
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 7;
+        return forecastEntities.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

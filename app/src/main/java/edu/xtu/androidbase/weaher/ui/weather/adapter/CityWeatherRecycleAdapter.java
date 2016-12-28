@@ -25,7 +25,7 @@ import edu.xtu.androidbase.weaher.ui.weather.domain.Weather;
  */
 public class CityWeatherRecycleAdapter extends RecyclerView.Adapter {
     private Context mContext;
-    private List<Weather> weathers = new ArrayList<>();
+    public List<Weather> weathers = new ArrayList<>();
     private OnClickListener onclickListenr;
     private int TYPE_HEAD = 0;
     private int TYPE_GRID = 1;
@@ -81,7 +81,7 @@ public class CityWeatherRecycleAdapter extends RecyclerView.Adapter {
 
     private void setGridViewData(GridViewHolder holder1, int position) {
         Weather weather = weathers.get(position);
-        holder1.contentImg.setImageDrawable(getImgDrawable(Integer.valueOf(weather.now.cond.code)));
+        holder1.contentImg.setImageDrawable(getImgDrawable(mContext,Integer.valueOf(weather.now.cond.code)));
         holder1.contentTv.setText(weather.basic.city);
     }
 
@@ -89,7 +89,7 @@ public class CityWeatherRecycleAdapter extends RecyclerView.Adapter {
         Weather weather = weathers.get(position);
         holder.tvCity.setText(weather.basic.city);
         holder.tvWeather.setText(weather.now.tmp+"℃");
-        holder.imgWeather.setImageDrawable(getImgDrawable(Integer.valueOf(weather.now.cond.code)));
+        holder.imgWeather.setImageDrawable(getImgDrawable(mContext,Integer.valueOf(weather.now.cond.code)));
         holder.tvWeatherMsg.setText(weather.suggestion.sport.txt);
 
     }
@@ -103,6 +103,7 @@ public class CityWeatherRecycleAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         return position == 0 ? TYPE_HEAD : TYPE_GRID;
     }
+
 
 
     public static class GridViewHolder extends RecyclerView.ViewHolder {
@@ -140,20 +141,20 @@ public class CityWeatherRecycleAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public Drawable getImgDrawable(int code){
-        Drawable drawable = ContextCompat.getDrawable(mContext,R.mipmap.sketchy_weather_hot);
+    public static Drawable getImgDrawable(Context context,int code){
+        Drawable drawable = ContextCompat.getDrawable(context,R.mipmap.sketchy_weather_hot);
         if(code == 100){
-            drawable = ContextCompat.getDrawable(mContext,R.mipmap.sketchy_weather_hot);
+            drawable = ContextCompat.getDrawable(context,R.mipmap.sketchy_weather_hot);
         }else if(code>=101 && code<=104){
-            drawable = ContextCompat.getDrawable(mContext,R.mipmap.sketchy_weather_cloud);
+            drawable = ContextCompat.getDrawable(context,R.mipmap.sketchy_weather_cloud);
         }else if(code>=200 && code<=213){
-            drawable = ContextCompat.getDrawable(mContext,R.mipmap.sketchy_weather_wind);
+            drawable = ContextCompat.getDrawable(context,R.mipmap.sketchy_weather_wind);
         }else if(code>=300 && code<=313){
-            drawable = ContextCompat.getDrawable(mContext,R.mipmap.sketchy_weather_rain);
+            drawable = ContextCompat.getDrawable(context,R.mipmap.sketchy_weather_rain);
         }else if(code>=400 && code<=407){
-            drawable = ContextCompat.getDrawable(mContext,R.mipmap.sketchy_weather_snow);
+            drawable = ContextCompat.getDrawable(context,R.mipmap.sketchy_weather_snow);
         }else if(code>=500 && code<=502){
-            drawable = ContextCompat.getDrawable(mContext,R.mipmap.sketchy_weather_haze);
+            drawable = ContextCompat.getDrawable(context,R.mipmap.sketchy_weather_haze);
         }
         return drawable;
     }
