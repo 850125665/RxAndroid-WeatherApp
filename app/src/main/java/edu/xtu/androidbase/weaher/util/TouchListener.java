@@ -82,10 +82,6 @@ public class TouchListener implements RecyclerView.OnItemTouchListener {
 
                 break;
             case MotionEvent.ACTION_UP:
-//                if (viewPager != null) {
-//
-//                    viewPager.requestDisallowInterceptTouchEvent(false);
-//                }
                 break;
         }
         return gestureDetectorCompat.onTouchEvent(e);
@@ -133,6 +129,9 @@ public class TouchListener implements RecyclerView.OnItemTouchListener {
             if (viewPager != null) {
                 viewPager.requestDisallowInterceptTouchEvent(true);
             }
+            if(swipeRefreshLayout!=null){
+                swipeRefreshLayout.setEnabled(false);
+            }
         }
 
         @Override
@@ -170,9 +169,9 @@ public class TouchListener implements RecyclerView.OnItemTouchListener {
         itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
             @Override
             public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                if(swipeRefreshLayout!=null){
-                    swipeRefreshLayout.setEnabled(false);
-                }
+//                if(swipeRefreshLayout!=null){
+//                    swipeRefreshLayout.setEnabled(false);
+//                }
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                 int dragFlag = 0;
                 int swipeFlag = 0;
