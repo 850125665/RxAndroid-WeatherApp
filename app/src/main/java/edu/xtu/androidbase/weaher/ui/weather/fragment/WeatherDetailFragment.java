@@ -4,7 +4,6 @@ import android.os.Build;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,13 +11,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.xtu.androidbase.weaher.R;
 import edu.xtu.androidbase.weaher.ui.base.BaseFragment;
-import edu.xtu.androidbase.weaher.ui.weather.adapter.CityWeatherRecycleAdapter;
-import edu.xtu.androidbase.weaher.ui.weather.adapter.WeatherDetailRecycleAdapter;
-import edu.xtu.androidbase.weaher.ui.weather.domain.Weather;
+import edu.xtu.androidbase.weaher.adapter.CityWeatherRecycleAdapter;
+import edu.xtu.androidbase.weaher.adapter.WeatherDetailRecycleAdapter;
+import edu.xtu.androidbase.weaher.domain.Weather;
 import edu.xtu.androidbase.weaher.util.LineDecoration;
-import edu.xtu.androidbase.weaher.util.LogUtils;
-import edu.xtu.androidbase.weaher.util.TouchListener;
-import edu.xtu.androidbase.weaher.util.view.CommonDialog;
 import edu.xtu.androidbase.weaher.util.view.LoadView;
 
 /**

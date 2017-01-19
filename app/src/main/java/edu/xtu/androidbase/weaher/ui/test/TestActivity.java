@@ -17,21 +17,7 @@ import edu.xtu.androidbase.weaher.BuildConfig;
 import edu.xtu.androidbase.weaher.R;
 import edu.xtu.androidbase.weaher.ui.base.BaseActivity;
 import edu.xtu.androidbase.weaher.ui.weather.activity.HomeActivity;
-import edu.xtu.androidbase.weaher.ui.weather.domain.City;
-import edu.xtu.androidbase.weaher.ui.weather.domain.SelectCity;
-import edu.xtu.androidbase.weaher.ui.weather.domain.Weather;
-import edu.xtu.androidbase.weaher.ui.weather.domain.WeatherAPI;
-import edu.xtu.androidbase.weaher.util.AppMethods;
-import edu.xtu.androidbase.weaher.util.DbManager;
-import edu.xtu.androidbase.weaher.util.LogUtils;
-import edu.xtu.androidbase.weaher.util.Retrofit.ApiService;
-import edu.xtu.androidbase.weaher.util.Retrofit.HttpClientListner;
-import edu.xtu.androidbase.weaher.util.Retrofit.HttpModel;
-import edu.xtu.androidbase.weaher.util.Retrofit.HttpSubscriber;
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Func0;
-import rx.functions.Func1;
+
 
 /**
  * Created by huilin on 2016/8/15.

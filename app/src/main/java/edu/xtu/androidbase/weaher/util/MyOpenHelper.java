@@ -5,8 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import org.greenrobot.greendao.database.Database;
 
-import edu.xtu.androidbase.weaher.ui.weather.domain.DaoMaster;
-import edu.xtu.androidbase.weaher.ui.weather.domain.SelectCityDao;
+import edu.xtu.androidbase.weaher.domain.DaoMaster;
+import edu.xtu.androidbase.weaher.domain.SelectCityDao;
 
 /**
  * Created by huilin on 2016/12/14.

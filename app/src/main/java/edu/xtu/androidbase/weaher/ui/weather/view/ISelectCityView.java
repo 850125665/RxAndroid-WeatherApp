@@ -2,8 +2,8 @@ package edu.xtu.androidbase.weaher.ui.weather.view;
 
 import java.util.List;
 
-import edu.xtu.androidbase.weaher.ui.weather.domain.City;
-import edu.xtu.androidbase.weaher.ui.weather.domain.Province;
+import edu.xtu.androidbase.weaher.domain.City;
+import edu.xtu.androidbase.weaher.domain.Province;
 
 /**
  * Created by huilin on 2016/12/12.

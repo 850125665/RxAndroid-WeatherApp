@@ -32,6 +32,7 @@ public class RxBus {
 
     public void postEven(Object object){
         bus.onNext(object);
+
     }
 
 }

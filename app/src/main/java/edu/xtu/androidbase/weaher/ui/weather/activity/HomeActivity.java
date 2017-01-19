@@ -27,22 +27,19 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.xtu.androidbase.weaher.R;
 import edu.xtu.androidbase.weaher.ui.base.BaseActivity;
 import edu.xtu.androidbase.weaher.ui.base.TerminalToolBarActivity;
-import edu.xtu.androidbase.weaher.ui.weather.adapter.HomeViewPageAdapter;
+import edu.xtu.androidbase.weaher.adapter.HomeViewPageAdapter;
 import edu.xtu.androidbase.weaher.ui.weather.fragment.CityFragment;
 import edu.xtu.androidbase.weaher.ui.weather.fragment.MainFragment;
 import edu.xtu.androidbase.weaher.ui.weather.fragment.SelectSelectCityFragment;
-import edu.xtu.androidbase.weaher.ui.weather.presenter.HomePresenter;
+import edu.xtu.androidbase.weaher.presenter.HomePresenter;
 import edu.xtu.androidbase.weaher.ui.weather.view.IHomeView;
-import edu.xtu.androidbase.weaher.util.AppInfo;
 import edu.xtu.androidbase.weaher.util.AppMethods;
-import edu.xtu.androidbase.weaher.util.CircularAnimUtil;
 
 /**
  * Created by huilin on 2016/11/6.

@@ -3,20 +3,17 @@ package edu.xtu.androidbase.weaher.util;
 import android.content.Context;
 import android.os.Environment;
 
-import org.greenrobot.greendao.AbstractDaoMaster;
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
-import edu.xtu.androidbase.weaher.ui.weather.domain.DaoMaster;
-import edu.xtu.androidbase.weaher.ui.weather.domain.DaoSession;
+import edu.xtu.androidbase.weaher.domain.DaoMaster;
+import edu.xtu.androidbase.weaher.domain.DaoSession;
 import edu.xtu.androidbase.weaher.util.RxUtil.RxHelp;
 import rx.Observable;
 import rx.Subscriber;
-import rx.functions.Func1;
 
 /**
  * Created by huilin on 2016/12/9.

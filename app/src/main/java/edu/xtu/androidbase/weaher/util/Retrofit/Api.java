@@ -1,11 +1,7 @@
 package edu.xtu.androidbase.weaher.util.Retrofit;
 
-import java.util.List;
-
-import edu.xtu.androidbase.weaher.ui.weather.domain.AddressBean;
-import edu.xtu.androidbase.weaher.ui.weather.domain.GaoDeAddressBean;
-import edu.xtu.androidbase.weaher.ui.weather.domain.Weather;
-import edu.xtu.androidbase.weaher.ui.weather.domain.WeatherAPI;
+import edu.xtu.androidbase.weaher.domain.GaoDeAddressBean;
+import edu.xtu.androidbase.weaher.domain.WeatherAPI;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;

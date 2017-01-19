@@ -3,9 +3,8 @@ package edu.xtu.androidbase.weaher.util.Retrofit;
 import android.location.Location;
 
 import edu.xtu.androidbase.weaher.BuildConfig;
-import edu.xtu.androidbase.weaher.ui.weather.domain.GaoDeAddressBean;
-import edu.xtu.androidbase.weaher.ui.weather.domain.Weather;
-import edu.xtu.androidbase.weaher.ui.weather.domain.WeatherAPI;
+import edu.xtu.androidbase.weaher.domain.GaoDeAddressBean;
+import edu.xtu.androidbase.weaher.domain.WeatherAPI;
 import edu.xtu.androidbase.weaher.util.RxUtil.RxHelp;
 import rx.Observable;
 

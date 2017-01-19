@@ -2,4 +2,10 @@
     <string name="app_name">天气APP</string>
     <string name="open_drawer">打开</string>
     <string name="close_drawer">关闭</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

@@ -2,7 +2,7 @@ package edu.xtu.androidbase.weaher.ui.weather.view;
 
 import java.util.List;
 
-import edu.xtu.androidbase.weaher.ui.weather.domain.SelectCity;
+import edu.xtu.androidbase.weaher.domain.SelectCity;
 
 /**
  * Created by huilin on 2016/12/14.

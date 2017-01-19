@@ -9,8 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.View;
-import android.view.Window;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -22,13 +20,12 @@ import butterknife.ButterKnife;
 import edu.xtu.androidbase.weaher.R;
 import edu.xtu.androidbase.weaher.ui.base.BaseFragment;
 import edu.xtu.androidbase.weaher.ui.base.TerminalToolBarActivity;
-import edu.xtu.androidbase.weaher.ui.weather.adapter.CityWeatherRecycleAdapter;
-import edu.xtu.androidbase.weaher.ui.weather.domain.Weather;
-import edu.xtu.androidbase.weaher.ui.weather.presenter.MainPresenter;
+import edu.xtu.androidbase.weaher.adapter.CityWeatherRecycleAdapter;
+import edu.xtu.androidbase.weaher.domain.Weather;
+import edu.xtu.androidbase.weaher.presenter.MainPresenter;
 import edu.xtu.androidbase.weaher.ui.weather.view.IMainView;
 import edu.xtu.androidbase.weaher.util.AppMethods;
 import edu.xtu.androidbase.weaher.util.GridDecoration;
-import edu.xtu.androidbase.weaher.util.LogUtils;
 import edu.xtu.androidbase.weaher.util.TouchListener;
 import edu.xtu.androidbase.weaher.util.view.LoadView;
 
