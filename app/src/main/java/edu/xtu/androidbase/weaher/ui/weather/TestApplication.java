@@ -1,4 +1,4 @@
-package edu.xtu.androidbase.weaher.ui.test;
+package edu.xtu.androidbase.weaher.ui.weather;
 
 import android.app.Application;
 
