@@ -83,21 +83,12 @@ public class MainFragment extends BaseFragment implements IMainView {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                     ImageView imageView = ((CityWeatherRecycleAdapter.GridViewHolder) holder).contentImg;
-                    View statusBar = getActivity().findViewById(android.R.id.statusBarBackground);
-                    View navigationBar = getActivity().findViewById(android.R.id.navigationBarBackground);
 
                     List<Pair<? extends View, String>> pairs = new ArrayList<Pair<? extends View, String>>();
-//                    pairs.add(Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME));
-//                    pairs.add(Pair.create(navigationBar,Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME));
                     pairs.add(Pair.create(imageView, String.valueOf(position)));
 
                     bundle.putString("transition", String.valueOf(position));
                     ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(getActivity(), pairs.toArray(new Pair[pairs.size()]));
-
-//                    imageView.setTransitionName(String.valueOf(position));
-//                    imageView.setTag(String.valueOf(position));
-//                    bundle.putBundle(TerminalToolBarActivity.SCENE_TRANSITION, ActivityOptions.makeSceneTransitionAnimation(getActivity(),
-//                            imageView,String.valueOf(position)).toBundle());
                     bundle.putBundle(TerminalToolBarActivity.SCENE_TRANSITION, activityOptions.toBundle());
                     TerminalToolBarActivity.show(mContext, WeatherDetailFragment.class, bundle);
                 } else {
@@ -106,19 +97,19 @@ public class MainFragment extends BaseFragment implements IMainView {
 
             }
         });
-        touchListener = new TouchListener(recyclerView,cityWeatherRecycleAdapter.weathers,cityWeatherRecycleAdapter);
-        recyclerView.addOnItemTouchListener(touchListener);
-        touchListener.dragItem( new TouchListener.DragItemListener() {
-            @Override
-            public void drag() {
-
-            }
-
-            @Override
-            public void swipe(int position) {
-
-            }
-        });
+//        touchListener = new TouchListener(recyclerView,cityWeatherRecycleAdapter.weathers,cityWeatherRecycleAdapter);
+//        recyclerView.addOnItemTouchListener(touchListener);
+//        touchListener.dragItem( new TouchListener.DragItemListener() {
+//            @Override
+//            public void drag() {
+//
+//            }
+//
+//            @Override
+//            public void swipe(int position) {
+//
+//            }
+//        });
 
     }
 
